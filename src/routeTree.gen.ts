@@ -10,33 +10,84 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAreaRouteImport } from './routes/_authenticated/area'
+import { Route as AuthenticatedArtistiRouteImport } from './routes/_authenticated/artisti'
+import { Route as AuthenticatedStanzeRouteImport } from './routes/_authenticated/stanze'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAreaRoute = AuthenticatedAreaRouteImport.update({
+  id: '/area',
+  path: '/area',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedArtistiRoute = AuthenticatedArtistiRouteImport.update({
+  id: '/artisti',
+  path: '/artisti',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStanzeRoute = AuthenticatedStanzeRouteImport.update({
+  id: '/stanze',
+  path: '/stanze',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/area': typeof AuthenticatedAreaRoute
+  '/artisti': typeof AuthenticatedArtistiRoute
+  '/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/area': typeof AuthenticatedAreaRoute
+  '/artisti': typeof AuthenticatedArtistiRoute
+  '/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/area': typeof AuthenticatedAreaRoute
+  '/_authenticated/artisti': typeof AuthenticatedArtistiRoute
+  '/_authenticated/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/auth' | '/area' | '/artisti' | '/stanze'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/auth' | '/area' | '/artisti' | '/stanze'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/area'
+    | '/_authenticated/artisti'
+    | '/_authenticated/stanze'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +99,64 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/area': {
+      id: '/_authenticated/area'
+      path: '/area'
+      fullPath: '/area'
+      preLoaderRoute: typeof AuthenticatedAreaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/artisti': {
+      id: '/_authenticated/artisti'
+      path: '/artisti'
+      fullPath: '/artisti'
+      preLoaderRoute: typeof AuthenticatedArtistiRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stanze': {
+      id: '/_authenticated/stanze'
+      path: '/stanze'
+      fullPath: '/stanze'
+      preLoaderRoute: typeof AuthenticatedStanzeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAreaRoute: typeof AuthenticatedAreaRoute
+  AuthenticatedArtistiRoute: typeof AuthenticatedArtistiRoute
+  AuthenticatedStanzeRoute: typeof AuthenticatedStanzeRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAreaRoute: AuthenticatedAreaRoute,
+  AuthenticatedArtistiRoute: AuthenticatedArtistiRoute,
+  AuthenticatedStanzeRoute: AuthenticatedStanzeRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
