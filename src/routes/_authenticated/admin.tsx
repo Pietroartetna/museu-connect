@@ -3,6 +3,7 @@ import { useIsAdmin } from "@/lib/auth";
 import { CrudSection } from "@/components/admin/CrudSection";
 import { RegistrationsSection } from "@/components/admin/RegistrationsSection";
 import { GalleryImagesSection } from "@/components/admin/GalleryImagesSection";
+import { EntityImagesSection } from "@/components/admin/EntityImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -74,6 +75,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="room"
+              table="rooms"
+              labelField="name"
+              title="Galleria delle stanze"
+              description="Aggiungi o rimuovi le foto mostrate all'interno di ogni stanza."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="artisti" className="mt-6">
@@ -103,6 +113,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="artist"
+              table="artists"
+              labelField="name"
+              title="Galleria degli artisti"
+              description="Aggiungi o rimuovi le foto mostrate nella scheda di ogni artista."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="eventi" className="mt-6">
@@ -132,6 +151,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="event"
+              table="events"
+              labelField="title"
+              title="Galleria degli eventi"
+              description="Aggiungi o rimuovi le foto mostrate all'interno di ogni evento."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="iscrizioni" className="mt-6">

@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/lib/auth";
 import { uploadFile } from "@/lib/storage";
 import { StoredImage } from "@/components/StoredImage";
+import { EntityGallery } from "@/components/EntityGallery";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -159,6 +160,8 @@ function EventiPage() {
                     </Button>
                   </div>
                 )}
+
+                <EntityGallery entityType="event" entityId={event.id} />
               </div>
             </article>
           );

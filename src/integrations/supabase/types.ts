@@ -44,6 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
+      entity_images: {
+        Row: {
+          caption: string | null
+          created_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          image_url: string
+          position: number
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          image_url: string
+          position?: number
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          image_url?: string
+          position?: number
+        }
+        Relationships: []
+      }
       event_registrations: {
         Row: {
           created_at: string
