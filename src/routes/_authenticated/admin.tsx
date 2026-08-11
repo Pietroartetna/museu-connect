@@ -113,6 +113,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="artist"
+              table="artists"
+              labelField="name"
+              title="Galleria degli artisti"
+              description="Aggiungi o rimuovi le foto mostrate nella scheda di ogni artista."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="eventi" className="mt-6">
