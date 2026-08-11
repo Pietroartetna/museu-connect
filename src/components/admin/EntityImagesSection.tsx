@@ -113,7 +113,7 @@ export function EntityImagesSection({ entityType, table, labelField, title, desc
           >
             <option value="">Seleziona…</option>
             {(entities ?? []).map((item) => (
-              <option key={item.id} value={item.id}>
+              <option key={item['id']} value={item['id']}>
                 {item[labelField]}
               </option>
             ))}
