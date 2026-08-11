@@ -74,6 +74,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="room"
+              table="rooms"
+              labelField="name"
+              title="Galleria delle stanze"
+              description="Aggiungi o rimuovi le foto mostrate all'interno di ogni stanza."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="artisti" className="mt-6">
