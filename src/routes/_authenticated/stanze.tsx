@@ -55,6 +55,7 @@ function StanzePage() {
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">
                 {room.description}
               </p>
+              <EntityGallery entityType="room" entityId={room.id} />
             </div>
           </article>
         ))}
