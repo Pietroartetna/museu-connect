@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
+import { EntityGallery } from "@/components/EntityGallery";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/artisti")({
