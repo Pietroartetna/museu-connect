@@ -159,6 +159,8 @@ function EventiPage() {
                     </Button>
                   </div>
                 )}
+
+                <EntityGallery entityType="event" entityId={event.id} />
               </div>
             </article>
           );
