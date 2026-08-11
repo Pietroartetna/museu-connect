@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
+import { EntityGallery } from "@/components/EntityGallery";
 
 export const Route = createFileRoute("/_authenticated/stanze")({
   head: () => ({
