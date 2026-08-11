@@ -63,9 +63,13 @@ export function SiteFooter() {
         <div>
           <h3 className="font-display text-lg">Seguici</h3>
           <SocialLinks className="mt-3 flex flex-wrap gap-2" />
-          <Link to="/auth" className="mt-4 inline-block text-sm underline opacity-80">
+          <Link to="/museo" className="mt-4 block text-sm underline opacity-80">
+            Il Museo — storia e info
+          </Link>
+          <Link to="/auth" className="mt-1 inline-block text-sm underline opacity-80">
             Area soci
           </Link>
+
         </div>
       </div>
       <div className="border-t border-white/10 px-6 py-4 text-center text-xs opacity-60">

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as MuseoRouteImport } from './routes/museo'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAreaRouteImport } from './routes/_authenticated/area'
 import { Route as AuthenticatedArtistiRouteImport } from './routes/_authenticated/artisti'
@@ -32,6 +33,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MuseoRoute = MuseoRouteImport.update({
+  id: '/museo',
+  path: '/museo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -73,6 +79,7 @@ const AuthenticatedStanzeRoute = AuthenticatedStanzeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/museo': typeof MuseoRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/area': typeof AuthenticatedAreaRoute
   '/artisti': typeof AuthenticatedArtistiRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/museo': typeof MuseoRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/area': typeof AuthenticatedAreaRoute
   '/artisti': typeof AuthenticatedArtistiRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/museo': typeof MuseoRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/area': typeof AuthenticatedAreaRoute
   '/_authenticated/artisti': typeof AuthenticatedArtistiRoute
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/museo'
     | '/admin'
     | '/area'
     | '/artisti'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/museo'
     | '/admin'
     | '/area'
     | '/artisti'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/museo'
     | '/_authenticated/admin'
     | '/_authenticated/area'
     | '/_authenticated/artisti'
@@ -146,6 +158,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  MuseoRoute: typeof MuseoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -169,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/museo': {
+      id: '/museo'
+      path: '/museo'
+      fullPath: '/museo'
+      preLoaderRoute: typeof MuseoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -250,6 +270,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  MuseoRoute: MuseoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
