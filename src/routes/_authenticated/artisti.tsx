@@ -73,6 +73,7 @@ function ArtistiPage() {
               </span>
               <h2 className="mt-1 text-xl text-primary">{artist.name}</h2>
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{artist.bio}</p>
+              <EntityGallery entityType="artist" entityId={artist.id} />
             </div>
           </article>
         ))}
