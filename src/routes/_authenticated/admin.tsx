@@ -142,6 +142,15 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <div className="mt-10 border-t pt-8">
+            <EntityImagesSection
+              entityType="event"
+              table="events"
+              labelField="title"
+              title="Galleria degli eventi"
+              description="Aggiungi o rimuovi le foto mostrate all'interno di ogni evento."
+            />
+          </div>
         </TabsContent>
 
         <TabsContent value="iscrizioni" className="mt-6">
