@@ -69,6 +69,7 @@ function Home() {
           <h1 className="mt-3 text-4xl leading-tight md:text-6xl">
             Casa Museo della Civiltà Contadina
           </h1>
+          <p className="mt-2 text-sm opacity-80">Intitolato al Dott. Lucio Messina</p>
           <p className="mt-4 max-w-2xl text-base opacity-85 md:text-lg">
             Nel cuore del centro storico di Nicolosi, una fedele ricostruzione dell'abitazione
             rurale etnea tra fine Ottocento e inizio Novecento.
@@ -80,11 +81,28 @@ function Home() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/auth">Accedi</Link>
+              <Link to="/museo">Scopri il museo</Link>
             </Button>
           </div>
         </div>
       </section>
+
+      <section className="mx-auto max-w-4xl px-6 pt-14">
+        <h2 className="text-3xl">Il Museo</h2>
+        <p className="mt-4 text-muted-foreground">
+          La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di
+          un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata
+          nel centro storico, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici,
+          tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori
+          un'immersione autentica nella vita contadina siciliana.
+        </p>
+        <Button asChild variant="link" className="mt-2 px-0">
+          <Link to="/museo">
+            Storia e informazioni generali <ArrowRight className="size-4" />
+          </Link>
+        </Button>
+      </section>
+
 
       <section className="mx-auto grid max-w-6xl gap-4 px-6 py-12 md:grid-cols-3">
         {[
