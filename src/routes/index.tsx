@@ -47,14 +47,7 @@ const aree = [
 function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 py-5">
-        <span className="font-display text-lg text-lava-foreground drop-shadow">
-          Casa Museo · Nicolosi
-        </span>
-        <Button asChild variant="secondary" size="sm">
-          <Link to="/auth">Area soci</Link>
-        </Button>
-      </header>
+      <SiteHeader light />
 
       <section className="relative isolate">
         <img
