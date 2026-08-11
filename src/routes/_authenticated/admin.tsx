@@ -3,6 +3,7 @@ import { useIsAdmin } from "@/lib/auth";
 import { CrudSection } from "@/components/admin/CrudSection";
 import { RegistrationsSection } from "@/components/admin/RegistrationsSection";
 import { GalleryImagesSection } from "@/components/admin/GalleryImagesSection";
+import { EntityImagesSection } from "@/components/admin/EntityImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
