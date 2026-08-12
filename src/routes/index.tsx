@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone, ArrowRight } from "lucide-react";
+import { Clock, MapPin, Phone, ArrowRight, DoorOpen, Palette, CalendarDays } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -25,22 +25,21 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const aree = [
+const areeBanner = [
   {
+    icon: DoorOpen,
     title: "Le stanze",
     text: "La cucina, la camera da letto, il magazzino degli attrezzi: ogni ambiente racconta la vita rurale ai piedi dell'Etna.",
   },
   {
+    icon: Palette,
     title: "Artisti",
     text: "Maestri di ieri e voci contemporanee del territorio, dalla pietra lavica alla ceramica.",
   },
   {
+    icon: CalendarDays,
     title: "Eventi",
     text: "Visite guidate, laboratori e serate a tema. I soci si iscrivono direttamente dall'app.",
-  },
-  {
-    title: "Gallerie",
-    text: "Raccolte fotografiche degli oggetti, delle feste e della memoria contadina nicolosita.",
   },
 ];
 
@@ -120,11 +119,17 @@ function Home() {
           Ogni area è consultabile dai soci registrati e viene aggiornata dall'amministrazione
           direttamente dall'app.
         </p>
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {aree.map((area) => (
-            <article key={area.title} className="rounded-xl border bg-card p-6 shadow-soft">
-              <h3 className="text-xl text-primary">{area.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{area.text}</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {areeBanner.map((area) => (
+            <article
+              key={area.title}
+              className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-lift"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <area.icon className="size-7" strokeWidth={1.5} />
+              </div>
+              <h3 className="mt-5 text-xl text-primary">{area.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{area.text}</p>
             </article>
           ))}
         </div>
