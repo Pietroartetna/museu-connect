@@ -25,22 +25,21 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const aree = [
+const areeBanner = [
   {
+    icon: DoorOpen,
     title: "Le stanze",
     text: "La cucina, la camera da letto, il magazzino degli attrezzi: ogni ambiente racconta la vita rurale ai piedi dell'Etna.",
   },
   {
+    icon: Palette,
     title: "Artisti",
     text: "Maestri di ieri e voci contemporanee del territorio, dalla pietra lavica alla ceramica.",
   },
   {
+    icon: CalendarDays,
     title: "Eventi",
     text: "Visite guidate, laboratori e serate a tema. I soci si iscrivono direttamente dall'app.",
-  },
-  {
-    title: "Gallerie",
-    text: "Raccolte fotografiche degli oggetti, delle feste e della memoria contadina nicolosita.",
   },
 ];
 
