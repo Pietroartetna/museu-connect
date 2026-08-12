@@ -88,6 +88,32 @@ function AreaHome() {
         Esplora le aree della Casa Museo della Civiltà Contadina di Nicolosi.
       </p>
 
+      <section className="mt-8 rounded-2xl border bg-paper p-6 shadow-soft">
+        <h2 className="text-2xl text-primary">Il Museo</h2>
+        <p className="mt-3 text-muted-foreground">
+          La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di
+          un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento.
+          Situata nel centro storico, in{" "}
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Casa+Museo+Civiltà+Contadina+Nicolosi+Via+Garibaldi+58"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent underline underline-offset-2 hover:text-primary"
+          >
+            Via Garibaldi 58
+          </a>
+          , custodisce attrezzi agricoli, utensili domestici, tessuti, oggetti di religiosità
+          popolare e molto altro, offrendo ai soci un'immersione autentica nella vita contadina
+          siciliana.
+        </p>
+        <Link
+          to="/museo"
+          className="mt-4 inline-flex items-center gap-1 text-sm text-accent hover:text-primary"
+        >
+          Storia e informazioni generali <ArrowRight className="size-4" />
+        </Link>
+      </section>
+
       <PreviewSection
         title="Le stanze"
         to="/stanze"
