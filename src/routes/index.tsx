@@ -119,11 +119,17 @@ function Home() {
           Ogni area è consultabile dai soci registrati e viene aggiornata dall'amministrazione
           direttamente dall'app.
         </p>
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {aree.map((area) => (
-            <article key={area.title} className="rounded-xl border bg-card p-6 shadow-soft">
-              <h3 className="text-xl text-primary">{area.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{area.text}</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {areeBanner.map((area) => (
+            <article
+              key={area.title}
+              className="group relative overflow-hidden rounded-2xl border bg-card p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-lift"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <area.icon className="size-7" strokeWidth={1.5} />
+              </div>
+              <h3 className="mt-5 text-xl text-primary">{area.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{area.text}</p>
             </article>
           ))}
         </div>
