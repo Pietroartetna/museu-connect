@@ -44,36 +44,6 @@ export type Database = {
         }
         Relationships: []
       }
-      entity_images: {
-        Row: {
-          caption: string | null
-          created_at: string
-          entity_id: string
-          entity_type: string
-          id: string
-          image_url: string
-          position: number
-        }
-        Insert: {
-          caption?: string | null
-          created_at?: string
-          entity_id: string
-          entity_type: string
-          id?: string
-          image_url: string
-          position?: number
-        }
-        Update: {
-          caption?: string | null
-          created_at?: string
-          entity_id?: string
-          entity_type?: string
-          id?: string
-          image_url?: string
-          position?: number
-        }
-        Relationships: []
-      }
       event_registrations: {
         Row: {
           created_at: string
@@ -159,7 +129,6 @@ export type Database = {
       }
       galleries: {
         Row: {
-          category: string
           cover_url: string | null
           created_at: string
           description: string | null
@@ -168,7 +137,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          category?: string
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -177,7 +145,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          category?: string
           cover_url?: string | null
           created_at?: string
           description?: string | null
@@ -194,7 +161,6 @@ export type Database = {
           gallery_id: string
           id: string
           image_url: string
-          media_type: string
           position: number
         }
         Insert: {
@@ -203,7 +169,6 @@ export type Database = {
           gallery_id: string
           id?: string
           image_url: string
-          media_type?: string
           position?: number
         }
         Update: {
@@ -212,7 +177,6 @@ export type Database = {
           gallery_id?: string
           id?: string
           image_url?: string
-          media_type?: string
           position?: number
         }
         Relationships: [

@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
-import { EntityGallery } from "@/components/EntityGallery";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/artisti")({
@@ -74,7 +73,6 @@ function ArtistiPage() {
               </span>
               <h2 className="mt-1 text-xl text-primary">{artist.name}</h2>
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{artist.bio}</p>
-              <EntityGallery entityType="artist" entityId={artist.id} />
             </div>
           </article>
         ))}

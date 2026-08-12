@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
-import { EntityGallery } from "@/components/EntityGallery";
 
 export const Route = createFileRoute("/_authenticated/stanze")({
   head: () => ({
@@ -55,7 +54,6 @@ function StanzePage() {
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">
                 {room.description}
               </p>
-              <EntityGallery entityType="room" entityId={room.id} />
             </div>
           </article>
         ))}
