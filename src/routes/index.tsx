@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone, ArrowRight } from "lucide-react";
+import { Clock, MapPin, Phone, ArrowRight, DoorOpen, Palette, CalendarDays } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
