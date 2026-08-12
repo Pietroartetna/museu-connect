@@ -1,16 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/lib/storage";
 import { StoredImage } from "@/components/StoredImage";
+import { StoredVideo } from "@/components/StoredVideo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function GalleryImagesSection() {
   const queryClient = useQueryClient();
+  const [category, setCategory] = useState("");
   const [galleryId, setGalleryId] = useState("");
   const [caption, setCaption] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -19,19 +21,32 @@ export function GalleryImagesSection() {
   const { data: galleries } = useQuery({
     queryKey: ["galleries"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("galleries").select("id, title").order("title");
+      const { data, error } = await supabase
+        .from("galleries")
+        .select("id, title, category")
+        .order("category")
+        .order("title");
       if (error) throw error;
       return data;
     },
   });
 
-  const { data: images } = useQuery({
+  const categories = useMemo(
+    () => Array.from(new Set((galleries ?? []).map((g) => g.category ?? "Generale"))).sort(),
+    [galleries],
+  );
+
+  const visibleGalleries = (galleries ?? []).filter(
+    (g) => !category || (g.category ?? "Generale") === category,
+  );
+
+  const { data: media } = useQuery({
     queryKey: ["gallery-images", galleryId],
     enabled: !!galleryId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("gallery_images")
-        .select("id, image_url, caption")
+        .select("id, image_url, caption, media_type")
         .eq("gallery_id", galleryId)
         .order("position");
       if (error) throw error;
@@ -45,7 +60,7 @@ export function GalleryImagesSection() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("Immagine eliminata");
+      toast.success("Contenuto eliminato");
       queryClient.invalidateQueries({ queryKey: ["gallery-images"] });
     },
   });
@@ -53,17 +68,18 @@ export function GalleryImagesSection() {
   async function add(e: React.FormEvent) {
     e.preventDefault();
     if (!galleryId || !file) {
-      toast.error("Seleziona una galleria e un'immagine");
+      toast.error("Seleziona una galleria e un file");
       return;
     }
     setBusy(true);
     try {
       const image_url = await uploadFile("museo", `gallerie/${galleryId}`, file);
+      const media_type = file.type.startsWith("video") ? "video" : "image";
       const { error } = await supabase
         .from("gallery_images")
-        .insert({ gallery_id: galleryId, image_url, caption: caption || null });
+        .insert({ gallery_id: galleryId, image_url, caption: caption || null, media_type });
       if (error) throw error;
-      toast.success("Immagine aggiunta");
+      toast.success(media_type === "video" ? "Video aggiunto" : "Foto aggiunta");
       setCaption("");
       setFile(null);
       queryClient.invalidateQueries({ queryKey: ["gallery-images"] });
@@ -77,13 +93,33 @@ export function GalleryImagesSection() {
   return (
     <section className="space-y-6">
       <div>
-        <h2 className="text-2xl">Immagini delle gallerie</h2>
+        <h2 className="text-2xl">Foto e video delle gallerie</h2>
         <p className="text-sm text-muted-foreground">
-          Carica le fotografie all'interno di una galleria esistente.
+          Scegli la categoria, poi la galleria, e carica foto o video. Puoi eliminarli in qualsiasi
+          momento.
         </p>
       </div>
 
-      <form onSubmit={add} className="grid gap-4 rounded-xl border bg-card p-5 shadow-soft md:grid-cols-3">
+      <form onSubmit={add} className="grid gap-4 rounded-xl border bg-card p-5 shadow-soft md:grid-cols-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="cat">Categoria</Label>
+          <select
+            id="cat"
+            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setGalleryId("");
+            }}
+          >
+            <option value="">Tutte</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="space-y-1.5">
           <Label htmlFor="gal">Galleria</Label>
           <select
@@ -93,7 +129,7 @@ export function GalleryImagesSection() {
             onChange={(e) => setGalleryId(e.target.value)}
           >
             <option value="">Seleziona…</option>
-            {(galleries ?? []).map((g) => (
+            {visibleGalleries.map((g) => (
               <option key={g.id} value={g.id}>
                 {g.title}
               </option>
@@ -105,34 +141,41 @@ export function GalleryImagesSection() {
           <Input id="cap" value={caption} onChange={(e) => setCaption(e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="img">Immagine</Label>
+          <Label htmlFor="img">Foto o video</Label>
           <Input
             id="img"
             type="file"
-            accept="image/*"
+            accept="image/*,video/*"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />
         </div>
-        <div className="md:col-span-3">
+        <div className="md:col-span-4">
           <Button type="submit" disabled={busy}>
-            Carica immagine
+            Carica contenuto
           </Button>
         </div>
       </form>
 
       {galleryId ? (
         <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {(images ?? []).map((img) => (
-            <div key={img.id} className="overflow-hidden rounded-lg border bg-card">
-              <StoredImage reference={img.image_url} alt={img.caption ?? ""} className="h-28 w-full" />
+          {(media ?? []).map((item) => (
+            <div key={item.id} className="overflow-hidden rounded-lg border bg-card">
+              {item.media_type === "video" ? (
+                <StoredVideo reference={item.image_url} className="h-28 w-full" />
+              ) : (
+                <StoredImage reference={item.image_url} alt={item.caption ?? ""} className="h-28 w-full" />
+              )}
               <div className="flex items-center justify-between gap-1 p-2">
-                <span className="truncate text-xs text-muted-foreground">{img.caption}</span>
-                <button type="button" onClick={() => remove.mutate(img.id)} aria-label="Elimina">
+                <span className="truncate text-xs text-muted-foreground">{item.caption}</span>
+                <button type="button" onClick={() => remove.mutate(item.id)} aria-label="Elimina">
                   <Trash2 className="size-4 text-destructive" />
                 </button>
               </div>
             </div>
           ))}
+          {(media?.length ?? 0) === 0 ? (
+            <p className="text-sm text-muted-foreground">Nessun contenuto in questa galleria.</p>
+          ) : null}
         </div>
       ) : null}
     </section>
