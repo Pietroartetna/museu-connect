@@ -144,13 +144,15 @@ function AdminPage() {
             queryKey="galleries"
             title="Gallerie"
             description="Raccolte fotografiche del museo."
-            select="id, title, description, cover_url"
+            select="id, title, description, cover_url, category"
             orderBy="created_at"
             ascending={false}
             titleField="title"
             imageField="cover_url"
+            renderExtra={(row) => String(row['category'] ?? "")}
             fields={[
               { name: "title", label: "Titolo", type: "text", required: true },
+              { name: "category", label: "Categoria", type: "combo", required: true },
               { name: "description", label: "Descrizione", type: "textarea" },
               { name: "cover_url", label: "Copertina", type: "image" },
             ]}

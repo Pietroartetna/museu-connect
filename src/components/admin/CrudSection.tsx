@@ -10,7 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export type FieldType = "text" | "textarea" | "number" | "datetime" | "checkbox" | "select" | "image";
+export type FieldType =
+  | "text"
+  | "textarea"
+  | "number"
+  | "datetime"
+  | "checkbox"
+  | "select"
+  | "combo"
+  | "image";
 
 export type Field = {
   name: string;
@@ -141,6 +149,20 @@ export function CrudSection({
                   </option>
                 ))}
               </select>
+            ) : field.type === "combo" ? (
+              <ComboField
+                id={`${table}-${field.name}`}
+                required={field.required}
+                existing={Array.from(
+                  new Set(
+                    (rows ?? [])
+                      .map((r) => String(r[field.name] ?? "").trim())
+                      .filter((v) => v.length > 0),
+                  ),
+                ).sort()}
+                value={String(values[field.name] ?? "")}
+                onChange={(v) => setValues({ ...values, [field.name]: v })}
+              />
             ) : field.type === "checkbox" ? (
               <div className="flex h-9 items-center">
                 <input
@@ -215,5 +237,56 @@ export function CrudSection({
         ) : null}
       </div>
     </section>
+  );
+}
+
+function ComboField({
+  id,
+  existing,
+  value,
+  required,
+  onChange,
+}: {
+  id: string;
+  existing: string[];
+  value: string;
+  required?: boolean | undefined;
+  onChange: (v: string) => void;
+}) {
+  const [isNew, setIsNew] = useState(existing.length === 0);
+
+  return (
+    <div className="space-y-2">
+      <select
+        id={id}
+        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+        value={isNew ? "__new__" : value}
+        onChange={(e) => {
+          if (e.target.value === "__new__") {
+            setIsNew(true);
+            onChange("");
+          } else {
+            setIsNew(false);
+            onChange(e.target.value);
+          }
+        }}
+      >
+        <option value="">Categoria esistente…</option>
+        {existing.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+        <option value="__new__">+ Nuova categoria</option>
+      </select>
+      {isNew ? (
+        <Input
+          placeholder="Nome della nuova categoria"
+          value={value}
+          required={required}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      ) : null}
+    </div>
   );
 }
