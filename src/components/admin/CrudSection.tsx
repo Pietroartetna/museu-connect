@@ -10,7 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export type FieldType = "text" | "textarea" | "number" | "datetime" | "checkbox" | "select" | "image";
+export type FieldType =
+  | "text"
+  | "textarea"
+  | "number"
+  | "datetime"
+  | "checkbox"
+  | "select"
+  | "combo"
+  | "image";
 
 export type Field = {
   name: string;
