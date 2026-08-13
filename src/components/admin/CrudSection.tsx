@@ -250,7 +250,7 @@ function ComboField({
   id: string;
   existing: string[];
   value: string;
-  required?: boolean;
+  required?: boolean | undefined;
   onChange: (v: string) => void;
 }) {
   const [isNew, setIsNew] = useState(existing.length === 0);
