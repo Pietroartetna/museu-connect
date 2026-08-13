@@ -149,6 +149,20 @@ export function CrudSection({
                   </option>
                 ))}
               </select>
+            ) : field.type === "combo" ? (
+              <ComboField
+                id={`${table}-${field.name}`}
+                required={field.required}
+                existing={Array.from(
+                  new Set(
+                    (rows ?? [])
+                      .map((r) => String(r[field.name] ?? "").trim())
+                      .filter((v) => v.length > 0),
+                  ),
+                ).sort()}
+                value={String(values[field.name] ?? "")}
+                onChange={(v) => setValues({ ...values, [field.name]: v })}
+              />
             ) : field.type === "checkbox" ? (
               <div className="flex h-9 items-center">
                 <input
