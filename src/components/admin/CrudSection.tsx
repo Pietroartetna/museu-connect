@@ -239,3 +239,54 @@ export function CrudSection({
     </section>
   );
 }
+
+function ComboField({
+  id,
+  existing,
+  value,
+  required,
+  onChange,
+}: {
+  id: string;
+  existing: string[];
+  value: string;
+  required?: boolean;
+  onChange: (v: string) => void;
+}) {
+  const [isNew, setIsNew] = useState(existing.length === 0);
+
+  return (
+    <div className="space-y-2">
+      <select
+        id={id}
+        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+        value={isNew ? "__new__" : value}
+        onChange={(e) => {
+          if (e.target.value === "__new__") {
+            setIsNew(true);
+            onChange("");
+          } else {
+            setIsNew(false);
+            onChange(e.target.value);
+          }
+        }}
+      >
+        <option value="">Categoria esistente…</option>
+        {existing.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+        <option value="__new__">+ Nuova categoria</option>
+      </select>
+      {isNew ? (
+        <Input
+          placeholder="Nome della nuova categoria"
+          value={value}
+          required={required}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      ) : null}
+    </div>
+  );
+}
