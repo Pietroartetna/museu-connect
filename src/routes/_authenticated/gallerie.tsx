@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
+import { StoredMedia } from "@/components/StoredMedia";
 
 export const Route = createFileRoute("/_authenticated/gallerie")({
   head: () => ({
@@ -27,7 +28,8 @@ function GalleriePage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("galleries")
-        .select("id, title, description, cover_url")
+        .select("id, title, description, cover_url, category")
+        .order("category")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -40,7 +42,7 @@ function GalleriePage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("gallery_images")
-        .select("id, image_url, caption")
+        .select("id, image_url, caption, media_type")
         .eq("gallery_id", openId!)
         .order("position");
       if (error) throw error;
@@ -71,6 +73,11 @@ function GalleriePage() {
           >
             <StoredImage reference={gallery.cover_url} alt={gallery.title} className="h-44 w-full" />
             <div className="p-4">
+              {gallery.category ? (
+                <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                  {gallery.category}
+                </span>
+              ) : null}
               <h2 className="text-lg text-primary">{gallery.title}</h2>
               <p className="text-sm text-muted-foreground">{gallery.description}</p>
             </div>
@@ -86,14 +93,19 @@ function GalleriePage() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {(images ?? []).map((img) => (
               <figure key={img.id} className="overflow-hidden rounded-lg border bg-card">
-                <StoredImage reference={img.image_url} alt={img.caption ?? ""} className="h-40 w-full" />
+                <StoredMedia
+                  reference={img.image_url}
+                  mediaType={img.media_type}
+                  alt={img.caption ?? ""}
+                  className="h-40 w-full"
+                />
                 {img.caption ? (
                   <figcaption className="p-2 text-xs text-muted-foreground">{img.caption}</figcaption>
                 ) : null}
               </figure>
             ))}
             {(images?.length ?? 0) === 0 ? (
-              <p className="text-sm text-muted-foreground">Nessuna immagine in questa galleria.</p>
+              <p className="text-sm text-muted-foreground">Nessun contenuto in questa galleria.</p>
             ) : null}
           </div>
         </section>
