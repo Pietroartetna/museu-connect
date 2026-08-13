@@ -63,6 +63,10 @@ export function GalleryImagesSection() {
       toast.error("Seleziona una galleria e un file");
       return;
     }
+    if (file.size > 50 * 1024 * 1024) {
+      toast.error("Il file supera i 50 MB: comprimilo prima di caricarlo");
+      return;
+    }
     setBusy(true);
     try {
       const image_url = await uploadFile("museo", `gallerie/${galleryId}`, file, {
@@ -76,12 +80,14 @@ export function GalleryImagesSection() {
       setCaption("");
       setFile(null);
       queryClient.invalidateQueries({ queryKey: ["gallery-images"] });
-    } catch {
-      toast.error("Caricamento non riuscito");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Caricamento non riuscito";
+      toast.error(message);
     } finally {
       setBusy(false);
     }
   }
+
 
   return (
     <section className="space-y-6">
