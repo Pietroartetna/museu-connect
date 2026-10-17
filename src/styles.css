@@ -165,3 +165,8 @@
 @utility shadow-lift {
   box-shadow: var(--shadow-lift);
 }
+
+/* Nasconde globalmente il badge Lovable */
+#lovable-badge {
+  display: none !important;
+}
