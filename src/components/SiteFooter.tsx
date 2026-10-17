@@ -35,7 +35,7 @@ export function SocialLinks({ className }: { className?: string }) {
         return (
           <a
             key={link.id}
-            href={link.url}
+            href={normalizeUrl(link.url)}
             target="_blank"
             rel="noreferrer noopener"
             className="inline-flex items-center gap-2 rounded-full border border-border/40 px-3 py-1.5 text-sm transition-colors hover:border-primary hover:text-primary"
