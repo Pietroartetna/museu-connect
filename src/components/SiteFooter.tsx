@@ -10,6 +10,11 @@ const icons: Record<string, typeof Facebook> = {
   globe: Globe,
 };
 
+function normalizeUrl(url: string) {
+  if (/^https?:\/\//i.test(url)) return url;
+  return `https://${url.replace(/^\/+/, "")}`;
+}
+
 export function SocialLinks({ className }: { className?: string }) {
   const { data } = useQuery({
     queryKey: ["site-links"],
