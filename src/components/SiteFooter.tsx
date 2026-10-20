@@ -68,11 +68,15 @@ export function SiteFooter() {
         <div>
           <h3 className="font-display text-lg">Seguici</h3>
           <SocialLinks className="mt-3 flex flex-wrap gap-2" />
+          <nav aria-label="Esplora" className="mt-4 flex flex-wrap gap-3 text-sm underline">
+            <Link to="/stanze">Stanze</Link><Link to="/artisti">Artisti</Link>
+            <Link to="/eventi">Eventi</Link><Link to="/gallerie">Gallerie</Link>
+          </nav>
           <Link to="/museo" className="mt-4 block text-sm underline opacity-80">
             Il Museo — storia e info
           </Link>
-          <Link to="/auth" className="mt-1 inline-block text-sm underline opacity-80">
-            Area soci
+          <Link to="/admin" className="mt-1 inline-block text-sm underline opacity-80">
+            Amministrazione
           </Link>
 
         </div>

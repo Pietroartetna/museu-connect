@@ -1,13 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useIsAdmin } from "@/lib/auth";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { canAccessAdministration } from "@/lib/access";
 import { CrudSection } from "@/components/admin/CrudSection";
 import { RegistrationsSection } from "@/components/admin/RegistrationsSection";
 import { GalleryImagesSection } from "@/components/admin/GalleryImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
+  beforeLoad: async ({ context }) => {
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", context.user.id);
+    if (error || !canAccessAdministration((data ?? []).map((row) => row.role))) {
+      throw redirect({ to: "/auth", replace: true });
+    }
+  },
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "Amministrazione — Casa Museo Nicolosi" },
       {
         name: "description",
@@ -21,24 +30,6 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminPage() {
-  const { data: isAdmin, isLoading } = useIsAdmin();
-
-  if (isLoading) return <p className="text-sm text-muted-foreground">Verifica permessi…</p>;
-
-  if (!isAdmin) {
-    return (
-      <div className="rounded-xl border border-dashed p-10 text-center">
-        <h1 className="text-2xl">Area riservata</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Questa sezione è accessibile solo agli amministratori della Casa Museo.
-        </p>
-        <Link to="/area" className="mt-4 inline-block text-sm underline">
-          Torna all'area soci
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div>
       <h1 className="text-3xl">Amministrazione</h1>
