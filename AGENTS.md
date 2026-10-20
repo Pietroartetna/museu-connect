@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep museum content routes top-level and wrap them in PublicMuseumLayout so visitors never need a session.
+- Gate administration with a database-backed role check in beforeLoad; database RLS remains the authority for all writes.
+- Grant anonymous storage reads only for files referenced by published museum content, never avatars or payment proofs.

@@ -1,8 +1,8 @@
 import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Shield } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsAdmin, useProfile } from "@/lib/auth";
+import { useProfile } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { StoredImage } from "@/components/StoredImage";
 
@@ -17,17 +17,16 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 const nav = [
-  { to: "/area", label: "Home" },
+  { to: "/", label: "Sito" },
   { to: "/stanze", label: "Stanze" },
   { to: "/artisti", label: "Artisti" },
   { to: "/eventi", label: "Eventi" },
   { to: "/gallerie", label: "Gallerie" },
-  { to: "/profilo", label: "Profilo" },
+  { to: "/admin", label: "Amministrazione" },
 ] as const;
 
 function AuthenticatedLayout() {
   const { data: profile } = useProfile();
-  const { data: isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -42,7 +41,7 @@ function AuthenticatedLayout() {
     <div className="min-h-screen bg-background">
       <header className="surface-lava sticky top-0 z-20 shadow-soft">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-3 px-5 py-3">
-          <Link to="/area" className="font-display text-base">
+          <Link to="/" className="font-display text-base">
             Casa Museo · Nicolosi
           </Link>
           <nav className="flex flex-1 flex-wrap gap-1">
@@ -56,15 +55,6 @@ function AuthenticatedLayout() {
                 {item.label}
               </Link>
             ))}
-            {isAdmin ? (
-              <Link
-                to="/admin"
-                activeProps={{ className: "bg-white/15" }}
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-primary-foreground opacity-90 transition-colors hover:bg-white/10"
-              >
-                <Shield className="size-3.5" /> Amministrazione
-              </Link>
-            ) : null}
           </nav>
           <div className="flex items-center gap-2">
             <StoredImage

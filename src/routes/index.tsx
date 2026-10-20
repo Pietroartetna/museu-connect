@@ -7,11 +7,13 @@ import { SiteFooter, SocialLinks } from "@/components/SiteFooter";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Casa Museo Civiltà Contadina di Nicolosi | Area soci" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Casa Museo Civiltà Contadina di Nicolosi | Visita il museo" },
       {
         name: "description",
         content:
-          "Ricostruzione di un'abitazione rurale etnea di fine Ottocento. Visita le stanze, scopri gli artisti, partecipa agli eventi e associati alla Casa Museo di Nicolosi.",
+          "Ricostruzione di un'abitazione rurale etnea di fine Ottocento. Visita le stanze, scopri gli artisti, scopri gli eventi alla Casa Museo di Nicolosi.",
       },
       { property: "og:title", content: "Casa Museo Civiltà Contadina di Nicolosi" },
       {
@@ -26,22 +28,26 @@ export const Route = createFileRoute("/")({
 
 const aree = [
   {
+    to: "/stanze",
     title: "Le stanze",
     text: "La cucina, la camera da letto, il magazzino degli attrezzi: ogni ambiente racconta la vita rurale ai piedi dell'Etna.",
   },
   {
+    to: "/artisti",
     title: "Artisti",
     text: "Maestri di ieri e voci contemporanee del territorio, dalla pietra lavica alla ceramica.",
   },
   {
+    to: "/eventi",
     title: "Eventi",
-    text: "Visite guidate, laboratori e serate a tema. I soci si iscrivono direttamente dall'app.",
+    text: "Visite guidate, laboratori e serate a tema della Casa Museo.",
   },
   {
+    to: "/gallerie",
     title: "Gallerie",
     text: "Raccolte fotografiche degli oggetti, delle feste e della memoria contadina nicolosita.",
   },
-];
+ ] as const;
 
 function Home() {
   return (
@@ -51,7 +57,7 @@ function Home() {
           Casa Museo · Nicolosi
         </span>
         <Button asChild variant="secondary" size="sm">
-          <Link to="/auth">Area soci</Link>
+          <Link to="/admin">Amministrazione</Link>
         </Button>
       </header>
 
@@ -76,8 +82,8 @@ function Home() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Button asChild size="lg">
-              <Link to="/auth">
-                Associati alla Casa Museo <ArrowRight className="size-4" />
+              <Link to="/stanze">
+                Visita le stanze <ArrowRight className="size-4" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
@@ -122,33 +128,17 @@ function Home() {
 
       <section className="mx-auto max-w-6xl px-6 pb-8">
         <h2 className="text-3xl">Le aree della Casa Museo</h2>
-        <p className="mt-2 max-w-2xl text-muted-foreground">
-          Ogni area è consultabile dai soci registrati e viene aggiornata dall'amministrazione
-          direttamente dall'app.
-        </p>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {aree.map((area) => (
             <article key={area.title} className="rounded-xl border bg-card p-6 shadow-soft">
-              <h3 className="text-xl text-primary">{area.title}</h3>
+              <h3 className="text-xl text-primary"><Link to={area.to}>{area.title}</Link></h3>
               <p className="mt-2 text-sm text-muted-foreground">{area.text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-10">
-        <div className="rounded-2xl border bg-paper p-8 text-center shadow-soft">
-          <h2 className="text-2xl">Diventa socio</h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-            Registrati con nome, cognome, telefono, email e una tua foto: potrai consultare tutte le
-            aree e iscriverti agli eventi.
-          </p>
-          <Button asChild className="mt-5">
-            <Link to="/auth">Registrati ora</Link>
-          </Button>
-          <SocialLinks className="mt-6 flex flex-wrap justify-center gap-2" />
-        </div>
-      </section>
+      <SocialLinks className="mx-auto mt-8 flex max-w-6xl flex-wrap gap-2 px-6" />
 
       <SiteFooter />
     </div>

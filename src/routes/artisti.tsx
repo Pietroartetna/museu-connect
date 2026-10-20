@@ -1,3 +1,4 @@
+import { PublicMuseumLayout } from "@/components/PublicMuseumLayout";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -5,9 +6,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/artisti")({
+export const Route = createFileRoute("/artisti")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Artisti — Casa Museo Nicolosi" },
       {
         name: "description",
@@ -38,7 +41,7 @@ function ArtistiPage() {
   const list = (data ?? []).filter((a) => filter === "tutti" || a.era === filter);
 
   return (
-    <div>
+    <PublicMuseumLayout>
       <h1 className="text-3xl">Artisti</h1>
       <p className="mt-2 text-muted-foreground">
         Le mani e le storie che hanno dato forma alla tradizione nicolosita.
@@ -77,6 +80,6 @@ function ArtistiPage() {
           </article>
         ))}
       </div>
-    </div>
+    </PublicMuseumLayout>
   );
 }

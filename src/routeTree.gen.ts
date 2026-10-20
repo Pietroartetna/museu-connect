@@ -11,15 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AreaRouteImport } from './routes/area'
+import { Route as ArtistiRouteImport } from './routes/artisti'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EventiRouteImport } from './routes/eventi'
+import { Route as GallerieRouteImport } from './routes/gallerie'
 import { Route as MuseoRouteImport } from './routes/museo'
+import { Route as ProfiloRouteImport } from './routes/profilo'
+import { Route as StanzeRouteImport } from './routes/stanze'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedAreaRouteImport } from './routes/_authenticated/area'
-import { Route as AuthenticatedArtistiRouteImport } from './routes/_authenticated/artisti'
-import { Route as AuthenticatedEventiRouteImport } from './routes/_authenticated/eventi'
-import { Route as AuthenticatedGallerieRouteImport } from './routes/_authenticated/gallerie'
-import { Route as AuthenticatedProfiloRouteImport } from './routes/_authenticated/profilo'
-import { Route as AuthenticatedStanzeRouteImport } from './routes/_authenticated/stanze'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,9 +30,29 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AreaRoute = AreaRouteImport.update({
+  id: '/area',
+  path: '/area',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArtistiRoute = ArtistiRouteImport.update({
+  id: '/artisti',
+  path: '/artisti',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventiRoute = EventiRouteImport.update({
+  id: '/eventi',
+  path: '/eventi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GallerieRoute = GallerieRouteImport.update({
+  id: '/gallerie',
+  path: '/gallerie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MuseoRoute = MuseoRouteImport.update({
@@ -40,125 +60,111 @@ const MuseoRoute = MuseoRouteImport.update({
   path: '/museo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfiloRoute = ProfiloRouteImport.update({
+  id: '/profilo',
+  path: '/profilo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StanzeRoute = StanzeRouteImport.update({
+  id: '/stanze',
+  path: '/stanze',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAreaRoute = AuthenticatedAreaRouteImport.update({
-  id: '/area',
-  path: '/area',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedArtistiRoute = AuthenticatedArtistiRouteImport.update({
-  id: '/artisti',
-  path: '/artisti',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEventiRoute = AuthenticatedEventiRouteImport.update({
-  id: '/eventi',
-  path: '/eventi',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedGallerieRoute = AuthenticatedGallerieRouteImport.update({
-  id: '/gallerie',
-  path: '/gallerie',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedProfiloRoute = AuthenticatedProfiloRouteImport.update({
-  id: '/profilo',
-  path: '/profilo',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedStanzeRoute = AuthenticatedStanzeRouteImport.update({
-  id: '/stanze',
-  path: '/stanze',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/area': typeof AreaRoute
+  '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/eventi': typeof EventiRoute
+  '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
+  '/profilo': typeof ProfiloRoute
+  '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
-  '/area': typeof AuthenticatedAreaRoute
-  '/artisti': typeof AuthenticatedArtistiRoute
-  '/eventi': typeof AuthenticatedEventiRoute
-  '/gallerie': typeof AuthenticatedGallerieRoute
-  '/profilo': typeof AuthenticatedProfiloRoute
-  '/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/area': typeof AreaRoute
+  '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/eventi': typeof EventiRoute
+  '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
+  '/profilo': typeof ProfiloRoute
+  '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
-  '/area': typeof AuthenticatedAreaRoute
-  '/artisti': typeof AuthenticatedArtistiRoute
-  '/eventi': typeof AuthenticatedEventiRoute
-  '/gallerie': typeof AuthenticatedGallerieRoute
-  '/profilo': typeof AuthenticatedProfiloRoute
-  '/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/area': typeof AreaRoute
+  '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/eventi': typeof EventiRoute
+  '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
+  '/profilo': typeof ProfiloRoute
+  '/stanze': typeof StanzeRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/area': typeof AuthenticatedAreaRoute
-  '/_authenticated/artisti': typeof AuthenticatedArtistiRoute
-  '/_authenticated/eventi': typeof AuthenticatedEventiRoute
-  '/_authenticated/gallerie': typeof AuthenticatedGallerieRoute
-  '/_authenticated/profilo': typeof AuthenticatedProfiloRoute
-  '/_authenticated/stanze': typeof AuthenticatedStanzeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/auth'
-    | '/museo'
-    | '/admin'
     | '/area'
     | '/artisti'
+    | '/auth'
     | '/eventi'
     | '/gallerie'
+    | '/museo'
     | '/profilo'
     | '/stanze'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
-    | '/museo'
-    | '/admin'
     | '/area'
     | '/artisti'
+    | '/auth'
     | '/eventi'
     | '/gallerie'
+    | '/museo'
     | '/profilo'
     | '/stanze'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/area'
+    | '/artisti'
     | '/auth'
+    | '/eventi'
+    | '/gallerie'
     | '/museo'
+    | '/profilo'
+    | '/stanze'
     | '/_authenticated/admin'
-    | '/_authenticated/area'
-    | '/_authenticated/artisti'
-    | '/_authenticated/eventi'
-    | '/_authenticated/gallerie'
-    | '/_authenticated/profilo'
-    | '/_authenticated/stanze'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AreaRoute: typeof AreaRoute
+  ArtistiRoute: typeof ArtistiRoute
   AuthRoute: typeof AuthRoute
+  EventiRoute: typeof EventiRoute
+  GallerieRoute: typeof GallerieRoute
   MuseoRoute: typeof MuseoRoute
+  ProfiloRoute: typeof ProfiloRoute
+  StanzeRoute: typeof StanzeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -177,11 +183,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/area': {
+      id: '/area'
+      path: '/area'
+      fullPath: '/area'
+      preLoaderRoute: typeof AreaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artisti': {
+      id: '/artisti'
+      path: '/artisti'
+      fullPath: '/artisti'
+      preLoaderRoute: typeof ArtistiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eventi': {
+      id: '/eventi'
+      path: '/eventi'
+      fullPath: '/eventi'
+      preLoaderRoute: typeof EventiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallerie': {
+      id: '/gallerie'
+      path: '/gallerie'
+      fullPath: '/gallerie'
+      preLoaderRoute: typeof GallerieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/museo': {
@@ -191,6 +225,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MuseoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profilo': {
+      id: '/profilo'
+      path: '/profilo'
+      fullPath: '/profilo'
+      preLoaderRoute: typeof ProfiloRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stanze': {
+      id: '/stanze'
+      path: '/stanze'
+      fullPath: '/stanze'
+      preLoaderRoute: typeof StanzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -198,69 +246,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/area': {
-      id: '/_authenticated/area'
-      path: '/area'
-      fullPath: '/area'
-      preLoaderRoute: typeof AuthenticatedAreaRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/artisti': {
-      id: '/_authenticated/artisti'
-      path: '/artisti'
-      fullPath: '/artisti'
-      preLoaderRoute: typeof AuthenticatedArtistiRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/eventi': {
-      id: '/_authenticated/eventi'
-      path: '/eventi'
-      fullPath: '/eventi'
-      preLoaderRoute: typeof AuthenticatedEventiRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/gallerie': {
-      id: '/_authenticated/gallerie'
-      path: '/gallerie'
-      fullPath: '/gallerie'
-      preLoaderRoute: typeof AuthenticatedGallerieRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/profilo': {
-      id: '/_authenticated/profilo'
-      path: '/profilo'
-      fullPath: '/profilo'
-      preLoaderRoute: typeof AuthenticatedProfiloRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/stanze': {
-      id: '/_authenticated/stanze'
-      path: '/stanze'
-      fullPath: '/stanze'
-      preLoaderRoute: typeof AuthenticatedStanzeRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedAreaRoute: typeof AuthenticatedAreaRoute
-  AuthenticatedArtistiRoute: typeof AuthenticatedArtistiRoute
-  AuthenticatedEventiRoute: typeof AuthenticatedEventiRoute
-  AuthenticatedGallerieRoute: typeof AuthenticatedGallerieRoute
-  AuthenticatedProfiloRoute: typeof AuthenticatedProfiloRoute
-  AuthenticatedStanzeRoute: typeof AuthenticatedStanzeRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedAreaRoute: AuthenticatedAreaRoute,
-  AuthenticatedArtistiRoute: AuthenticatedArtistiRoute,
-  AuthenticatedEventiRoute: AuthenticatedEventiRoute,
-  AuthenticatedGallerieRoute: AuthenticatedGallerieRoute,
-  AuthenticatedProfiloRoute: AuthenticatedProfiloRoute,
-  AuthenticatedStanzeRoute: AuthenticatedStanzeRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -269,8 +263,14 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AreaRoute: AreaRoute,
+  ArtistiRoute: ArtistiRoute,
   AuthRoute: AuthRoute,
+  EventiRoute: EventiRoute,
+  GallerieRoute: GallerieRoute,
   MuseoRoute: MuseoRoute,
+  ProfiloRoute: ProfiloRoute,
+  StanzeRoute: StanzeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

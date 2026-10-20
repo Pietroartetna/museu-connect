@@ -20,6 +20,7 @@ export const Route = createFileRoute("/museo")({
           "Una fedele ricostruzione dell'abitazione rurale etnea tra fine Ottocento e primi del Novecento, in Via Garibaldi 58 a Nicolosi.",
       },
       { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MuseoPage,
@@ -55,7 +56,7 @@ function MuseoPage() {
           <ArrowLeft className="size-4" /> Casa Museo · Nicolosi
         </Link>
         <Button asChild variant="secondary" size="sm">
-          <Link to="/auth">Area soci</Link>
+          <Link to="/admin">Amministrazione</Link>
         </Button>
       </header>
 
