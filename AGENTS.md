@@ -12,3 +12,4 @@
 - Keep museum content routes top-level and wrap them in PublicMuseumLayout so visitors never need a session.
 - Gate administration with a database-backed role check in beforeLoad; database RLS remains the authority for all writes.
 - Grant anonymous storage reads only for files referenced by published museum content, never avatars or payment proofs.
+- Store room subgallery photos in the existing entity_images table with entity_type 'room' and captions, reusing museum media policies and optimization instead of duplicating storage structures.
