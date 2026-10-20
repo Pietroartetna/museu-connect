@@ -1,3 +1,4 @@
+import { PublicMuseumLayout } from "@/components/PublicMuseumLayout";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -5,9 +6,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
 import { StoredMedia } from "@/components/StoredMedia";
 
-export const Route = createFileRoute("/_authenticated/gallerie")({
+export const Route = createFileRoute("/gallerie")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Gallerie — Casa Museo Nicolosi" },
       {
         name: "description",
@@ -40,10 +43,11 @@ function GalleriePage() {
     queryKey: ["gallery-images", openId],
     enabled: !!openId,
     queryFn: async () => {
+      if (!openId) return [];
       const { data, error } = await supabase
         .from("gallery_images")
         .select("id, image_url, caption, media_type")
-        .eq("gallery_id", openId!)
+        .eq("gallery_id", openId)
         .order("position");
       if (error) throw error;
       return data;
@@ -51,7 +55,7 @@ function GalleriePage() {
   });
 
   return (
-    <div>
+    <PublicMuseumLayout>
       <h1 className="text-3xl">Gallerie</h1>
       <p className="mt-2 text-muted-foreground">
         Immagini degli oggetti, delle feste e della vita quotidiana contadina.
@@ -110,6 +114,6 @@ function GalleriePage() {
           </div>
         </section>
       ) : null}
-    </div>
+    </PublicMuseumLayout>
   );
 }

@@ -1,11 +1,14 @@
+import { PublicMuseumLayout } from "@/components/PublicMuseumLayout";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
 
-export const Route = createFileRoute("/_authenticated/stanze")({
+export const Route = createFileRoute("/stanze")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Le stanze — Casa Museo Nicolosi" },
       {
         name: "description",
@@ -32,7 +35,7 @@ function StanzePage() {
   });
 
   return (
-    <div>
+    <PublicMuseumLayout>
       <h1 className="text-3xl">Le stanze</h1>
       <p className="mt-2 text-muted-foreground">
         Ogni ambiente racconta un pezzo di vita rurale ai piedi dell'Etna.
@@ -41,7 +44,7 @@ function StanzePage() {
       {isLoading ? <p className="mt-8 text-sm text-muted-foreground">Caricamento…</p> : null}
       {!isLoading && (data?.length ?? 0) === 0 ? (
         <p className="mt-8 rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-          Nessuna stanza pubblicata. L'amministratore può aggiungerle dall'area amministrazione.
+          Nessuna stanza pubblicata al momento.
         </p>
       ) : null}
 
@@ -58,6 +61,6 @@ function StanzePage() {
           </article>
         ))}
       </div>
-    </div>
+    </PublicMuseumLayout>
   );
 }
