@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
+import { RoomGallery } from "@/components/RoomGallery";
+import { photosForRoom, roomPhotosQuery } from "@/lib/room-gallery";
 
 export const Route = createFileRoute("/stanze")({
   head: () => ({
@@ -22,6 +24,7 @@ export const Route = createFileRoute("/stanze")({
 });
 
 function StanzePage() {
+  const { data: photos = [], error: photosError } = useQuery(roomPhotosQuery);
   const { data, isLoading } = useQuery({
     queryKey: ["rooms"],
     queryFn: async () => {
@@ -48,6 +51,7 @@ function StanzePage() {
         </p>
       ) : null}
 
+      {photosError ? <p role="alert" className="mt-6 text-sm text-destructive">Le gallerie fotografiche non sono al momento disponibili.</p> : null}
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {(data ?? []).map((room) => (
           <article key={room.id} className="overflow-hidden rounded-xl border bg-card shadow-soft">
@@ -57,6 +61,7 @@ function StanzePage() {
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">
                 {room.description}
               </p>
+              <RoomGallery name={room.name} photos={photosForRoom(photos, room.id)} />
             </div>
           </article>
         ))}

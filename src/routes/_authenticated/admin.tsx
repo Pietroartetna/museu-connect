@@ -4,6 +4,7 @@ import { canAccessAdministration } from "@/lib/access";
 import { CrudSection } from "@/components/admin/CrudSection";
 import { RegistrationsSection } from "@/components/admin/RegistrationsSection";
 import { GalleryImagesSection } from "@/components/admin/GalleryImagesSection";
+import { RoomImagesSection } from "@/components/admin/RoomImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -65,6 +66,7 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <RoomImagesSection />
         </TabsContent>
 
         <TabsContent value="artisti" className="mt-6">
