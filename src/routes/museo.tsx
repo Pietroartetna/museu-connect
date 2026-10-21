@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Clock, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -26,10 +26,17 @@ export const Route = createFileRoute("/museo")({
   component: MuseoPage,
 });
 
-const collezioni = [
+type Collezione = {
+  title: string;
+  text: string;
+  link?: { to: "/stanze"; label: string };
+};
+
+const collezioni: Collezione[] = [
   {
     title: "Gli ambienti",
     text: "Una cucina in muratura, due camere da letto e i resti di un antico palmento dove avveniva la vinificazione mediante pigiatura.",
+    link: { to: "/stanze", label: "Visita le stanze" },
   },
   {
     title: "Il lavoro dei campi",
@@ -102,6 +109,15 @@ function MuseoPage() {
             <article key={item.title} className="rounded-xl border bg-card p-6 shadow-soft">
               <h3 className="text-xl text-primary">{item.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+              {item.link && (
+                <Link
+                  to={item.link.to}
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  {item.link.label}
+                  <ArrowRight className="size-4" />
+                </Link>
+              )}
             </article>
           ))}
         </div>
