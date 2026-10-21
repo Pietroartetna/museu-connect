@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Clock, MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
-import { Button } from "@/components/ui/button";
+import { MuseumNav } from "@/components/MuseumNav";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/museo")({
@@ -55,17 +55,7 @@ const collezioni: Collezione[] = [
 function MuseoPage() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 py-5">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 font-display text-lg text-lava-foreground drop-shadow"
-        >
-          <ArrowLeft className="size-4" /> Casa Museo · Nicolosi
-        </Link>
-        <Button asChild variant="secondary" size="sm">
-          <Link to="/admin">Amministrazione</Link>
-        </Button>
-      </header>
+      <MuseumNav />
 
       <section className="relative isolate">
         <img
