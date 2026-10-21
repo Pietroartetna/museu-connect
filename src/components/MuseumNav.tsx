@@ -20,7 +20,7 @@ export function MuseumNav() {
         </Link>
         <nav
           aria-label="Visita il museo"
-          className="flex flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,transparent,black_14px,black_calc(100%_-_14px),transparent)] sm:[mask-image:none]"
         >
           {navLinks.map(([to, label]) => (
             <Button
