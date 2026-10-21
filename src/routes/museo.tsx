@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { MuseumNav } from "@/components/MuseumNav";
 import { SiteFooter } from "@/components/SiteFooter";
