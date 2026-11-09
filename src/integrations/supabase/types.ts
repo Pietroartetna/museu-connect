@@ -22,6 +22,7 @@ export type Database = {
           id: string
           image_url: string | null
           name: string
+          page_id: string | null
           updated_at: string
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           name: string
+          page_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -40,7 +42,46 @@ export type Database = {
           id?: string
           image_url?: string | null
           name?: string
+          page_id?: string | null
           updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artists_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "museum_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          subject?: string | null
         }
         Relationships: []
       }
@@ -164,6 +205,8 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          page_id: string | null
+          parent_id: string | null
           title: string
           updated_at: string
         }
@@ -173,6 +216,8 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          page_id?: string | null
+          parent_id?: string | null
           title: string
           updated_at?: string
         }
@@ -182,10 +227,27 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          page_id?: string | null
+          parent_id?: string | null
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "galleries_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "museum_pages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "galleries_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "galleries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       gallery_images: {
         Row: {
@@ -224,6 +286,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      museum_pages: {
+        Row: {
+          banner_url: string | null
+          biography: string | null
+          caption: string | null
+          created_at: string
+          description: string | null
+          id: string
+          position: number
+          published: boolean
+          slug: string
+          title: string
+        }
+        Insert: {
+          banner_url?: string | null
+          biography?: string | null
+          caption?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          position?: number
+          published?: boolean
+          slug: string
+          title: string
+        }
+        Update: {
+          banner_url?: string | null
+          biography?: string | null
+          caption?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          position?: number
+          published?: boolean
+          slug?: string
+          title?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -265,6 +366,7 @@ export type Database = {
           id: string
           image_url: string | null
           name: string
+          page_id: string | null
           position: number
           updated_at: string
         }
@@ -274,6 +376,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           name: string
+          page_id?: string | null
           position?: number
           updated_at?: string
         }
@@ -283,8 +386,35 @@ export type Database = {
           id?: string
           image_url?: string | null
           name?: string
+          page_id?: string | null
           position?: number
           updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rooms_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "museum_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_content: {
+        Row: {
+          id: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          id?: string
+          updated_at?: string
+          value?: string
         }
         Relationships: []
       }
