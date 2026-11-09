@@ -47,7 +47,7 @@ export function SiteContentSection() {
     finally { setBusy(false); }
   }
   return <section><h2 className="text-2xl">Contenuti del sito</h2><form onSubmit={save} className="mt-6 grid gap-5 md:grid-cols-2">
-    {[["home.banner","Banner pagina iniziale"],["museo.banner","Banner storia"]].map(([id,label]) => <div key={id}><Label htmlFor={id}>{label}</Label><Input id={id} type="file" accept="image/*" onChange={e => {const file=e.target.files?.[0]; if(file) setFiles({...files,[id]:file});}} /></div>)}
+    {([["home.banner","Banner pagina iniziale"],["museo.banner","Banner storia"]] as const).map(([id,label]) => <div key={id}><Label htmlFor={id}>{label}</Label><Input id={id} type="file" accept="image/*" onChange={e => {const file=e.target.files?.[0]; if(file) setFiles({...files,[id]:file});}} /></div>)}
     {contentFields.map(([id,label]) => <div key={id} className="space-y-2"><Label htmlFor={id}>{label}</Label><Textarea id={id} maxLength={12000} value={draft[id] ?? data[id] ?? ""} onChange={e => setDraft({...draft,[id]:e.target.value})} /></div>)}
     <div className="md:col-span-2"><Button disabled={busy} type="submit"><Save className="size-4" />{busy ? "Salvataggio…" : "Salva contenuti"}</Button></div>
   </form></section>;
