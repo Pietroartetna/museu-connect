@@ -6,3 +6,6 @@
 - [x] Gestire caricamento, modifica e cancellazione delle foto nell’amministrazione.
 - [x] Verificare caricamento amministratore e visualizzazione pubblica.
 - [ ] Aggiungere un'area contatti con indirizzi email, mappa e invio messaggio alla casella ufficiale.
+- [ ] Rendere modificabili banner, didascalie, biografie e testi del sito.
+- [ ] Gestire pagine personalizzate con gallerie, sottogallerie, artisti e stanze.
+- [ ] Verificare salvataggio amministratore e visita pubblica dei nuovi contenuti.
