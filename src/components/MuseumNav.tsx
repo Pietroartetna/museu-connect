@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Lock, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useMuseumPages } from "@/lib/site-content";
 
 const navLinks = [
   ["/museo", "Il Museo"],
@@ -9,12 +10,14 @@ const navLinks = [
   ["/artisti", "Artisti"],
   ["/eventi", "Eventi"],
   ["/gallerie", "Gallerie"],
+  ["/contatti", "Contatti"],
 ] as const;
 
 const FADE = 26;
 
 /** Compact navigation bar that stays pinned to the top of the page while scrolling. */
 export function MuseumNav() {
+  const {data:pages=[]}=useMuseumPages();
   const navRef = useRef<HTMLElement | null>(null);
   const [edges, setEdges] = useState({ left: false, right: false });
   const [open, setOpen] = useState(false);
@@ -73,6 +76,7 @@ export function MuseumNav() {
               </Link>
             </Button>
           ))}
+          {pages.filter(p=>p.published).map(p=><Button key={p.id} asChild variant="ghost" size="sm" className="shrink-0"><Link to="/pagine/$slug" params={{slug:p.slug}}>{p.title}</Link></Button>)}
         </nav>
         <span className="flex-1 sm:hidden" />
 
@@ -117,6 +121,7 @@ export function MuseumNav() {
                 </Link>
               </Button>
             ))}
+            {pages.filter(p=>p.published).map(p=><Button key={p.id} asChild variant="ghost" size="sm" className="justify-start" onClick={()=>setOpen(false)}><Link to="/pagine/$slug" params={{slug:p.slug}}>{p.title}</Link></Button>)}
           </div>
         </nav>
       )}

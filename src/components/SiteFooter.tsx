@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Facebook, Globe, Instagram, Youtube } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useSiteContent } from "@/lib/site-content";
 
 const icons: Record<string, typeof Facebook> = {
   facebook: Facebook,
@@ -50,20 +51,22 @@ export function SocialLinks({ className }: { className?: string }) {
 }
 
 export function SiteFooter() {
+  const text=useSiteContent();
   return (
     <footer className="surface-lava mt-24">
       <div className="mx-auto grid max-w-6xl gap-8 px-6 py-14 md:grid-cols-3">
         <div>
-          <h3 className="font-display text-lg">Casa Museo della Civiltà Contadina</h3>
+          <h3 className="font-display text-lg">{text("site.name","Casa Museo della Civiltà Contadina")}</h3>
           <p className="mt-2 text-sm opacity-75">
-            Via G. Garibaldi 58, 95052 Nicolosi (CT)
+            {text("contact.address","Via G. Garibaldi 58, 95052 Nicolosi (CT)")}
           </p>
-          <p className="text-sm opacity-75">Tel. 095 910980</p>
+          <p className="text-sm opacity-75">Tel. {text("contact.phone","095 910980")}</p>
+          <a className="mt-2 block break-all text-sm underline" href={`mailto:${text("contact.email","casamuseonicolosi@gmail.com")}`}>{text("contact.email","casamuseonicolosi@gmail.com")}</a>
         </div>
         <div>
           <h3 className="font-display text-lg">Orari</h3>
-          <p className="mt-2 text-sm opacity-75">Da martedì a sabato, 9:30 – 12:30</p>
-          <p className="text-sm opacity-75">Ingresso libero — visite guidate su richiesta</p>
+          <p className="mt-2 text-sm opacity-75">{text("contact.hours","Da martedì a sabato, 9:30 – 12:30")}</p>
+          <p className="text-sm opacity-75">{text("contact.visits","Ingresso libero — visite guidate su richiesta")}</p>
         </div>
         <div>
           <h3 className="font-display text-lg">Seguici</h3>
@@ -71,6 +74,7 @@ export function SiteFooter() {
           <nav aria-label="Esplora" className="mt-4 flex flex-wrap gap-3 text-sm underline">
             <Link to="/stanze">Stanze</Link><Link to="/artisti">Artisti</Link>
             <Link to="/eventi">Eventi</Link><Link to="/gallerie">Gallerie</Link>
+            <Link to="/contatti">Contatti</Link>
           </nav>
           <Link to="/museo" className="mt-4 block text-sm underline opacity-80">
             Il Museo — storia e info
