@@ -14,12 +14,14 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AreaRouteImport } from './routes/area'
 import { Route as ArtistiRouteImport } from './routes/artisti'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as EventiRouteImport } from './routes/eventi'
 import { Route as GallerieRouteImport } from './routes/gallerie'
 import { Route as MuseoRouteImport } from './routes/museo'
 import { Route as ProfiloRouteImport } from './routes/profilo'
 import { Route as StanzeRouteImport } from './routes/stanze'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as PagineSlugRouteImport } from './routes/pagine.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -43,6 +45,11 @@ const ArtistiRoute = ArtistiRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContattiRoute = ContattiRouteImport.update({
+  id: '/contatti',
+  path: '/contatti',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventiRoute = EventiRouteImport.update({
@@ -75,30 +82,39 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PagineSlugRoute = PagineSlugRouteImport.update({
+  id: '/pagine/$slug',
+  path: '/pagine/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/area': typeof AreaRoute
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/contatti': typeof ContattiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/pagine/$slug': typeof PagineSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/area': typeof AreaRoute
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/contatti': typeof ContattiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/pagine/$slug': typeof PagineSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,12 +123,14 @@ export interface FileRoutesById {
   '/area': typeof AreaRoute
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
+  '/contatti': typeof ContattiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/pagine/$slug': typeof PagineSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,24 +139,28 @@ export interface FileRouteTypes {
     | '/area'
     | '/artisti'
     | '/auth'
+    | '/contatti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
     | '/profilo'
     | '/stanze'
     | '/admin'
+    | '/pagine/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/area'
     | '/artisti'
     | '/auth'
+    | '/contatti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
     | '/profilo'
     | '/stanze'
     | '/admin'
+    | '/pagine/$slug'
   id:
     | '__root__'
     | '/'
@@ -146,12 +168,14 @@ export interface FileRouteTypes {
     | '/area'
     | '/artisti'
     | '/auth'
+    | '/contatti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
     | '/profilo'
     | '/stanze'
     | '/_authenticated/admin'
+    | '/pagine/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -160,11 +184,13 @@ export interface RootRouteChildren {
   AreaRoute: typeof AreaRoute
   ArtistiRoute: typeof ArtistiRoute
   AuthRoute: typeof AuthRoute
+  ContattiRoute: typeof ContattiRoute
   EventiRoute: typeof EventiRoute
   GallerieRoute: typeof GallerieRoute
   MuseoRoute: typeof MuseoRoute
   ProfiloRoute: typeof ProfiloRoute
   StanzeRoute: typeof StanzeRoute
+  PagineSlugRoute: typeof PagineSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -202,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contatti': {
+      id: '/contatti'
+      path: '/contatti'
+      fullPath: '/contatti'
+      preLoaderRoute: typeof ContattiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/eventi': {
@@ -246,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/pagine/$slug': {
+      id: '/pagine/$slug'
+      path: '/pagine/$slug'
+      fullPath: '/pagine/$slug'
+      preLoaderRoute: typeof PagineSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -266,11 +306,13 @@ const rootRouteChildren: RootRouteChildren = {
   AreaRoute: AreaRoute,
   ArtistiRoute: ArtistiRoute,
   AuthRoute: AuthRoute,
+  ContattiRoute: ContattiRoute,
   EventiRoute: EventiRoute,
   GallerieRoute: GallerieRoute,
   MuseoRoute: MuseoRoute,
   ProfiloRoute: ProfiloRoute,
   StanzeRoute: StanzeRoute,
+  PagineSlugRoute: PagineSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

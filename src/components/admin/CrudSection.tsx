@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Trash2 } from "lucide-react";
+import { Pencil, Save, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/lib/storage";
 import { StoredImage } from "@/components/StoredImage";
@@ -31,7 +31,7 @@ export type Field = {
 type Row = Record<string, unknown> & { id: string };
 
 type CrudSectionProps = {
-  table: "rooms" | "artists" | "events" | "galleries" | "site_links";
+  table: "rooms" | "artists" | "events" | "galleries" | "site_links" | "museum_pages";
   queryKey: string;
   title: string;
   description: string;
@@ -61,6 +61,7 @@ export function CrudSection({
   const [values, setValues] = useState<Record<string, string | boolean>>({});
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  const [editing, setEditing] = useState<string | null>(null);
 
   const { data: rows } = useQuery({
     queryKey: [queryKey],
@@ -100,9 +101,12 @@ export function CrudSection({
       if (imageField && file) {
         payload[imageField] = await uploadFile("museo", `${table}/${Date.now()}`, file);
       }
-      const { error } = await supabase.from(table).insert(payload as never);
+      const { error } = editing
+        ? await supabase.from(table).update(payload as never).eq("id", editing)
+        : await supabase.from(table).insert(payload as never);
       if (error) throw error;
-      toast.success("Elemento creato");
+      toast.success(editing ? "Modifiche salvate" : "Elemento creato");
+      setEditing(null);
       setValues({});
       setFile(null);
       queryClient.invalidateQueries({ queryKey: [queryKey] });
@@ -174,7 +178,7 @@ export function CrudSection({
                 />
               </div>
             ) : field.type === "image" ? (
-              <Input
+              <Input key={`${editing ?? "new"}-image`}
                 id={`${table}-${field.name}`}
                 type="file"
                 accept="image/*"
@@ -196,8 +200,9 @@ export function CrudSection({
         ))}
         <div className="md:col-span-2">
           <Button type="submit" disabled={busy}>
-            Aggiungi
+            <Save className="size-4" />{editing ? "Salva modifiche" : "Aggiungi"}
           </Button>
+          {editing ? <Button className="ml-2" type="button" variant="outline" onClick={() => { setEditing(null); setValues({}); setFile(null); }}><X className="size-4" />Annulla</Button> : null}
         </div>
       </form>
 
@@ -220,6 +225,11 @@ export function CrudSection({
                 <div className="text-xs text-muted-foreground">{renderExtra(row)}</div>
               ) : null}
             </div>
+            <Button size="icon" variant="ghost" title="Modifica" aria-label={`Modifica ${String(row[titleField] ?? "")}`} onClick={() => {
+              setEditing(row.id); setFile(null);
+              setValues(Object.fromEntries(fields.filter(f => f.type !== "image").map(f => [f.name, f.type === "checkbox" ? Boolean(row[f.name]) : f.type === "datetime" && row[f.name] ? new Date(String(row[f.name])).toISOString().slice(0,16) : String(row[f.name] ?? "")])));
+              document.getElementById(`${table}-${fields[0]?.name}`)?.scrollIntoView({ block: "center", behavior: "smooth" });
+            }}><Pencil className="size-4" /></Button>
             <Button
               size="icon"
               variant="ghost"

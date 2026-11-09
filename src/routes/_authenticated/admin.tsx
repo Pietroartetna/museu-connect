@@ -6,6 +6,10 @@ import { RegistrationsSection } from "@/components/admin/RegistrationsSection";
 import { GalleryImagesSection } from "@/components/admin/GalleryImagesSection";
 import { RoomImagesSection } from "@/components/admin/RoomImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SiteContentSection } from "@/components/admin/SiteContentSection";
+import { ContactSubmissionsSection } from "@/components/admin/ContactSubmissionsSection";
+import { useMuseumPages } from "@/lib/site-content";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async ({ context }) => {
@@ -31,6 +35,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminPage() {
+  const {data:pages=[]}=useMuseumPages();
+  const pageField={name:"page_id",label:"Pagina (facoltativa)",type:"select" as const,options:pages.map(p=>({value:p.id,label:p.title}))};
+  const {data:galleries=[]}=useQuery({queryKey:["galleries","selector"],queryFn:async()=>{const {data,error}=await supabase.from("galleries").select("id,title").order("title");if(error)throw error;return data;}});
   return (
     <div>
       <h1 className="text-3xl">Amministrazione</h1>
@@ -39,7 +46,10 @@ function AdminPage() {
       </p>
 
       <Tabs defaultValue="stanze" className="mt-8">
-        <TabsList className="flex flex-wrap">
+        <TabsList className="flex h-auto flex-wrap">
+          <TabsTrigger value="contenuti">Contenuti sito</TabsTrigger>
+          <TabsTrigger value="pagine">Pagine</TabsTrigger>
+          <TabsTrigger value="messaggi">Messaggi</TabsTrigger>
           <TabsTrigger value="stanze">Stanze</TabsTrigger>
           <TabsTrigger value="artisti">Artisti</TabsTrigger>
           <TabsTrigger value="eventi">Eventi</TabsTrigger>
@@ -49,17 +59,24 @@ function AdminPage() {
           <TabsTrigger value="social">Social</TabsTrigger>
         </TabsList>
 
+        <TabsContent value="contenuti" className="mt-6"><SiteContentSection /></TabsContent>
+        <TabsContent value="messaggi" className="mt-6"><ContactSubmissionsSection /></TabsContent>
+        <TabsContent value="pagine" className="mt-6"><CrudSection table="museum_pages" queryKey="museum-pages" title="Pagine" description="" select="*" orderBy="position" titleField="title" imageField="banner_url" fields={[
+          {name:"title",label:"Titolo",type:"text",required:true},{name:"slug",label:"Indirizzo pagina (solo lettere minuscole, numeri e trattini)",type:"text",required:true},
+          {name:"banner_url",label:"Banner",type:"image"},{name:"caption",label:"Didascalia",type:"text"},{name:"description",label:"Descrizione",type:"textarea"},{name:"biography",label:"Biografia / testo",type:"textarea"},{name:"position",label:"Ordine",type:"number"},{name:"published",label:"Pubblicata",type:"checkbox"}
+        ]} /></TabsContent>
         <TabsContent value="stanze" className="mt-6">
           <CrudSection
             table="rooms"
             queryKey="rooms"
             title="Stanze"
             description="Gli ambienti della casa contadina."
-            select="id, name, description, image_url, position"
+            select="id, name, description, image_url, position, page_id"
             orderBy="position"
             titleField="name"
             imageField="image_url"
             fields={[
+              pageField,
               { name: "name", label: "Nome stanza", type: "text", required: true },
               { name: "position", label: "Ordine", type: "number" },
               { name: "description", label: "Descrizione", type: "textarea" },
@@ -75,12 +92,13 @@ function AdminPage() {
             queryKey="artists"
             title="Artisti"
             description="Artisti storici e contemporanei."
-            select="id, name, era, bio, image_url"
+            select="id, name, era, bio, image_url, page_id"
             orderBy="name"
             titleField="name"
             imageField="image_url"
             renderExtra={(row) => String(row['era'] ?? "")}
             fields={[
+              pageField,
               { name: "name", label: "Nome", type: "text", required: true },
               {
                 name: "era",
@@ -137,13 +155,15 @@ function AdminPage() {
             queryKey="galleries"
             title="Gallerie"
             description="Raccolte fotografiche del museo."
-            select="id, title, description, cover_url, category"
+            select="id, title, description, cover_url, category, page_id, parent_id"
             orderBy="created_at"
             ascending={false}
             titleField="title"
             imageField="cover_url"
             renderExtra={(row) => String(row['category'] ?? "")}
             fields={[
+              pageField,
+              {name:"parent_id",label:"Galleria principale (facoltativa)",type:"select",options:galleries.map(g=>({value:g.id,label:g.title}))},
               { name: "title", label: "Titolo", type: "text", required: true },
               { name: "category", label: "Categoria", type: "combo", required: true },
               { name: "description", label: "Descrizione", type: "textarea" },
