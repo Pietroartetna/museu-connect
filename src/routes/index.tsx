@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone, ArrowRight, DoorOpen, Palette, CalendarDays, Images } from "lucide-react";
+import { Clock, MapPin, Phone, Mail, ArrowRight, DoorOpen, Palette, CalendarDays, Images } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { MuseumNav } from "@/components/MuseumNav";
@@ -58,6 +58,9 @@ const aree = [
 
 function Home() {
   const text=useSiteContent();
+  const address = text("contact.address", "Via G. Garibaldi 58, 95052 Nicolosi (CT)");
+  const phone = text("contact.phone", "095 910980");
+  const email = text("contact.email", "casamuseonicolosi@gmail.com");
   return (
     <div className="min-h-screen bg-background">
       <MuseumNav />
@@ -106,23 +109,7 @@ function Home() {
       </section>
 
 
-      <section className="mx-auto grid max-w-6xl gap-4 px-6 py-12 md:grid-cols-3">
-        {[
-          { icon: MapPin, label: text("contact.address", "Via G. Garibaldi 58, Nicolosi (CT)") },
-          { icon: Clock, label: text("contact.hours", "Martedì – Sabato, 9:30 – 12:30") },
-          { icon: Phone, label: text("contact.phone", "095 910980") },
-        ].map(({ icon: Icon, label }) => (
-          <div
-            key={label}
-            className="flex items-center gap-3 rounded-lg border bg-card p-4 shadow-soft"
-          >
-            <Icon className="size-5 text-primary" />
-            <span className="text-sm">{label}</span>
-          </div>
-        ))}
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 pb-8">
+      <section className="mx-auto max-w-6xl px-6 pb-8 pt-12">
         <h2 className="text-3xl">Le aree della Casa Museo</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {aree.map((area) => (
@@ -138,7 +125,35 @@ function Home() {
         </div>
       </section>
 
-      <SocialLinks className="mx-auto mt-8 flex max-w-6xl flex-wrap gap-2 px-6" />
+      <section aria-labelledby="visit-info" className="mt-10 border-y border-border bg-muted/40">
+        <div className="mx-auto max-w-6xl px-6 py-10 sm:py-12">
+          <h2 id="visit-info" className="text-3xl">Indirizzo, orari e contatti</h2>
+          <div className="mt-8 grid gap-8 lg:grid-cols-3 lg:gap-10">
+            <div className="min-w-0">
+              <h3 className="flex items-center gap-3 text-xl"><MapPin className="size-5 shrink-0 text-primary" aria-hidden="true" />Dove siamo</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{address}</p>
+              <Button asChild variant="link" className="mt-2 h-auto whitespace-normal px-0 text-left">
+                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} target="_blank" rel="noopener noreferrer">Indicazioni su Google Maps <ArrowRight className="size-4 shrink-0" /></a>
+              </Button>
+            </div>
+            <div className="min-w-0">
+              <h3 className="flex items-center gap-3 text-xl"><Clock className="size-5 shrink-0 text-primary" aria-hidden="true" />Orari di apertura</h3>
+              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{text("contact.hours", "Da martedì a sabato, 9:30 – 12:30")}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text("contact.visits", "Ingresso libero — visite guidate su richiesta")}</p>
+            </div>
+            <div className="min-w-0">
+              <h3 className="flex items-center gap-3 text-xl"><Mail className="size-5 shrink-0 text-primary" aria-hidden="true" />Contatti</h3>
+              <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="mt-3 flex items-center gap-3 text-sm hover:text-primary"><Phone className="size-4 shrink-0" aria-hidden="true" />{phone}</a>
+              <a href={`mailto:${email}`} className="mt-3 flex items-start gap-3 text-sm hover:text-primary"><Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" /><span className="min-w-0 break-words [overflow-wrap:anywhere]">{email}</span></a>
+              <Button asChild variant="link" className="mt-2 h-auto px-0"><Link to="/contatti">Scrivi al museo <ArrowRight className="size-4" /></Link></Button>
+            </div>
+          </div>
+          <div className="mt-8 border-t border-border pt-6">
+            <h3 className="text-lg">Seguici</h3>
+            <SocialLinks className="mt-3 flex flex-wrap gap-2" />
+          </div>
+        </div>
+      </section>
 
       <SiteFooter />
     </div>
