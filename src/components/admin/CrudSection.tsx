@@ -93,7 +93,7 @@ export function CrudSection({
         if (field.type === "image") continue;
         const raw = values[field.name];
         if (field.type === "checkbox") payload[field.name] = !!raw;
-        else if (raw === undefined || raw === "") payload[field.name] = null;
+        else if (raw === undefined || raw === "") payload[field.name] = field.name === "position" ? 0 : null;
         else if (field.type === "number") payload[field.name] = Number(raw);
         else if (field.type === "datetime") payload[field.name] = new Date(String(raw)).toISOString();
         else payload[field.name] = String(raw).trim();
@@ -110,8 +110,8 @@ export function CrudSection({
       setValues({});
       setFile(null);
       queryClient.invalidateQueries({ queryKey: [queryKey] });
-    } catch {
-      toast.error("Creazione non riuscita: controlla i campi obbligatori");
+    } catch (error) {
+      toast.error(error && typeof error === "object" && "message" in error ? String(error.message) : "Salvataggio non riuscito: controlla i campi obbligatori");
     } finally {
       setBusy(false);
     }

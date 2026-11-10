@@ -15,6 +15,13 @@
       "when": 1794216883121,
       "tag": "0001_museum_content_and_contacts",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794303049844,
+      "tag": "0002_prevent_gallery_cycles",
+      "breakpoints": true
     }
   ]
 }

@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { MuseumNav } from "@/components/MuseumNav";
+import { useSiteContent } from "@/lib/site-content";
+import { StoredImage } from "@/components/StoredImage";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/museo")({
@@ -53,52 +55,46 @@ const collezioni: Collezione[] = [
 ];
 
 function MuseoPage() {
+  const text=useSiteContent();
   return (
     <div className="min-h-screen bg-background">
       <MuseumNav />
 
       <section className="relative isolate">
-        <img
+        {text("museo.banner", "") ? <StoredImage reference={text("museo.banner", "")} alt={text("site.caption", "Casa Museo")} className="h-[52vh] w-full" /> : <img
           src={heroImage}
           alt="Ambienti della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
           height={1008}
           className="h-[52vh] w-full object-cover"
-        />
+        />}
         <div className="absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-6 pb-12 text-lava-foreground">
           <p className="text-sm uppercase tracking-[0.25em] opacity-80">Il Museo</p>
           <h1 className="mt-3 text-4xl leading-tight md:text-5xl">
-            Casa Museo della Civiltà Contadina
+            {text("site.name","Casa Museo della Civiltà Contadina")}
           </h1>
-          <p className="mt-3 text-base opacity-85">Intitolato al Dott. Lucio Messina</p>
+          <p className="mt-3 text-base opacity-85">{text("site.caption","Intitolato al Dott. Lucio Messina")}</p>
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-12">
         <h2 className="text-3xl">La storia</h2>
         <p className="mt-4 text-muted-foreground">
-          La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di
-          un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata
-          nel centro storico di Nicolosi, in Via Garibaldi 58, custodisce attrezzi agricoli,
-          utensili domestici, tessuti, oggetti di religiosità popolare e molto altro, offrendo ai
-          visitatori un'immersione autentica nella vita contadina siciliana.
+          {text("museo.history", "La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata nel centro storico di Nicolosi, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici, tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori un'immersione autentica nella vita contadina siciliana.")}
         </p>
         <p className="mt-4 text-muted-foreground">
-          Il museo è intitolato alla memoria del Dott. Lucio Messina, già vice-prefetto di Catania.
-          Gli ambienti restituiscono i gesti quotidiani di una comunità che viveva di agricoltura e
-          pastorizia: la panificazione, la vendemmia, la tessitura, la cura della casa e degli
-          animali.
+          {text("museo.biography", "Il museo è intitolato alla memoria del Dott. Lucio Messina, già vice-prefetto di Catania. Gli ambienti restituiscono i gesti quotidiani di una comunità che viveva di agricoltura e pastorizia: la panificazione, la vendemmia, la tessitura, la cura della casa e degli animali.")}
         </p>
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-6">
         <h2 className="text-3xl">Le collezioni</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {collezioni.map((item) => (
+          {collezioni.map((item,index) => (
             <article key={item.title} className="rounded-xl border bg-card p-6 shadow-soft">
-              <h3 className="text-xl text-primary">{item.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+              <h3 className="text-xl text-primary">{text(`collection.${index}.title`,item.title)}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{text(`collection.${index}.text`,item.text)}</p>
               {item.link && (
                 <Link
                   to={item.link.to}
@@ -117,9 +113,9 @@ function MuseoPage() {
         <h2 className="text-3xl">Informazioni generali</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {[
-            { icon: MapPin, label: "Via G. Garibaldi 58, 95052 Nicolosi (CT)" },
-            { icon: Clock, label: "Da martedì a sabato, 9:30 – 12:30" },
-            { icon: Phone, label: "Tel. 095 910980" },
+            { icon: MapPin, label: text("contact.address","Via G. Garibaldi 58, 95052 Nicolosi (CT)") },
+            { icon: Clock, label: text("contact.hours","Da martedì a sabato, 9:30 – 12:30") },
+            { icon: Phone, label: text("contact.phone","Tel. 095 910980") },
           ].map(({ icon: Icon, label }) => (
             <div
               key={label}
@@ -131,7 +127,7 @@ function MuseoPage() {
           ))}
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
-          Ingresso libero. Visite guidate su richiesta, anche per scolaresche e gruppi.
+          {text("contact.visits","Ingresso libero. Visite guidate su richiesta, anche per scolaresche e gruppi.")}
         </p>
       </section>
 

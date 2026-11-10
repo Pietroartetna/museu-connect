@@ -13,3 +13,6 @@
 - Gate administration with a database-backed role check in beforeLoad; database RLS remains the authority for all writes.
 - Grant anonymous storage reads only for files referenced by published museum content, never avatars or payment proofs.
 - Store room subgallery photos in the existing entity_images table with entity_type 'room' and captions, reusing museum media policies and optimization instead of duplicating storage structures.
+- Store editable global copy in site_content and custom published pages in museum_pages; attach existing rooms, artists and galleries through page_id to reuse their administration and media.
+- Model subgalleries with galleries.parent_id and reject cyclic ancestry so navigation remains reachable.
+- Store contact submissions with insert-only visitor access and admin-only reads; never claim email delivery before verified sending is wired.
