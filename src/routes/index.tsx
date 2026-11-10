@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, MapPin, Phone, ArrowRight } from "lucide-react";
+import { Clock, MapPin, Phone, ArrowRight, DoorOpen, Palette, CalendarDays, Images } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { MuseumNav } from "@/components/MuseumNav";
@@ -32,21 +32,25 @@ export const Route = createFileRoute("/")({
 const aree = [
   {
     to: "/stanze",
+    icon: DoorOpen,
     title: "Le stanze",
     text: "La cucina, la camera da letto, il magazzino degli attrezzi: ogni ambiente racconta la vita rurale ai piedi dell'Etna.",
   },
   {
     to: "/artisti",
+    icon: Palette,
     title: "Artisti",
     text: "Maestri di ieri e voci contemporanee del territorio, dalla pietra lavica alla ceramica.",
   },
   {
     to: "/eventi",
+    icon: CalendarDays,
     title: "Eventi",
     text: "Visite guidate, laboratori e serate a tema della Casa Museo.",
   },
   {
     to: "/gallerie",
+    icon: Images,
     title: "Gallerie",
     text: "Raccolte fotografiche degli oggetti, delle feste e della memoria contadina nicolosita.",
   },
@@ -123,7 +127,11 @@ function Home() {
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {aree.map((area) => (
             <article key={area.title} className="rounded-xl border bg-card p-6 shadow-soft">
-              <h3 className="text-xl text-primary"><Link to={area.to}>{area.title}</Link></h3>
+              <h3 className="text-xl text-primary">
+                <Button asChild variant="link" className="h-auto justify-start whitespace-normal p-0 font-display text-xl">
+                  <Link to={area.to}><area.icon className="size-5 shrink-0" aria-hidden="true" />{area.title}</Link>
+                </Button>
+              </h3>
               <p className="mt-2 text-sm text-muted-foreground">{area.text}</p>
             </article>
           ))}
