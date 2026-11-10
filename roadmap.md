@@ -5,7 +5,8 @@
 - [x] Aggiungere una galleria fotografica con descrizioni per ogni stanza.
 - [x] Gestire caricamento, modifica e cancellazione delle foto nell’amministrazione.
 - [x] Verificare caricamento amministratore e visualizzazione pubblica.
-- [ ] Aggiungere un'area contatti con indirizzi email, mappa e invio messaggio alla casella ufficiale.
-- [ ] Rendere modificabili banner, didascalie, biografie e testi del sito.
-- [ ] Gestire pagine personalizzate con gallerie, sottogallerie, artisti e stanze.
-- [ ] Verificare salvataggio amministratore e visita pubblica dei nuovi contenuti.
+- [x] Aggiungere contatti con email, mappa e messaggi ricevuti nell’amministrazione.
+- [ ] Inoltrare i messaggi alla casella ufficiale: manca un dominio email verificato.
+- [x] Rendere modificabili banner, didascalie, biografie e testi del sito.
+- [x] Gestire pagine personalizzate con gallerie, sottogallerie, artisti e stanze.
+- [x] Verificare creazione, modifica e visita pubblica di una pagina e invio contatti.
