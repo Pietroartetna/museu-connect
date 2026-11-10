@@ -60,18 +60,18 @@ function MuseoPage() {
     <div className="min-h-screen bg-background">
       <MuseumNav />
 
-      <section className="relative isolate">
-        {text("museo.banner", "") ? <StoredImage reference={text("museo.banner", "")} alt={text("site.caption", "Casa Museo")} className="h-[52vh] w-full" /> : <img
+      <section className="relative isolate flex min-h-[min(52svh,560px)] items-end overflow-hidden">
+        {text("museo.banner", "") ? <StoredImage reference={text("museo.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
           src={heroImage}
           alt="Ambienti della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
           height={1008}
-          className="h-[52vh] w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />}
-        <div className="absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-6 pb-12 text-lava-foreground">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
+        <div className="relative z-10 mx-auto w-full max-w-4xl px-5 pb-8 pt-20 text-lava-foreground sm:px-6 sm:pb-12 sm:pt-24">
           <p className="text-sm uppercase tracking-[0.25em] opacity-80">Il Museo</p>
-          <h1 className="mt-3 text-4xl leading-tight md:text-5xl">
+          <h1 className="mt-3 text-3xl leading-tight break-words [overflow-wrap:anywhere] sm:text-4xl lg:text-5xl">
             {text("site.name","Casa Museo della Civiltà Contadina")}
           </h1>
           <p className="mt-3 text-base opacity-85">{text("site.caption","Intitolato al Dott. Lucio Messina")}</p>

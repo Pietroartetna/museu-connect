@@ -58,25 +58,25 @@ function Home() {
     <div className="min-h-screen bg-background">
       <MuseumNav />
 
-      <section className="relative isolate">
-        {text("home.banner", "") ? <StoredImage reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="h-[78vh] w-full" /> : <img
+      <section className="relative isolate flex min-h-[min(78svh,760px)] items-end overflow-hidden">
+        {text("home.banner", "") ? <StoredImage reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
           src={heroImage}
           alt="Interno della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
           height={1008}
-          className="h-[78vh] w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />}
-        <div className="absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-6 pb-16 text-lava-foreground">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
+        <div className="relative z-10 mx-auto w-full max-w-4xl px-5 pb-8 pt-20 text-lava-foreground sm:px-6 sm:pb-12 sm:pt-24 lg:pb-16">
           <p className="text-sm uppercase tracking-[0.25em] opacity-80">{text("home.eyebrow","Porta dell'Etna")}</p>
-          <h1 className="mt-3 text-4xl leading-tight md:text-6xl">
+          <h1 className="mt-3 text-3xl leading-tight break-words [overflow-wrap:anywhere] sm:text-4xl lg:text-6xl">
             {text("site.name","Casa Museo della Civiltà Contadina")}
           </h1>
           <p className="mt-2 text-sm opacity-80">{text("site.caption","Intitolato al Dott. Lucio Messina")}</p>
           <p className="mt-4 max-w-2xl text-base opacity-85 md:text-lg">
 {text("home.description", "Nel cuore del centro storico di Nicolosi, una fedele ricostruzione dell’abitazione rurale etnea tra fine Ottocento e inizio Novecento.")}
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 [&>a]:h-auto [&>a]:min-h-11 [&>a]:max-w-full [&>a]:whitespace-normal [&>a]:py-3">
             <Button asChild size="lg">
               <Link to="/stanze">
                 Visita le stanze <ArrowRight className="size-4" />
