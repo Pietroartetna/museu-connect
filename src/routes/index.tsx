@@ -3,6 +3,8 @@ import { Clock, MapPin, Phone, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-casa-museo.jpg";
 import { Button } from "@/components/ui/button";
 import { MuseumNav } from "@/components/MuseumNav";
+import { useSiteContent } from "@/lib/site-content";
+import { StoredImage } from "@/components/StoredImage";
 import { SiteFooter, SocialLinks } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
@@ -51,28 +53,28 @@ const aree = [
  ] as const;
 
 function Home() {
+  const text=useSiteContent();
   return (
     <div className="min-h-screen bg-background">
       <MuseumNav />
 
       <section className="relative isolate">
-        <img
+        {text("home.banner", "") ? <StoredImage reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="h-[78vh] w-full" /> : <img
           src={heroImage}
           alt="Interno della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
           height={1008}
           className="h-[78vh] w-full object-cover"
-        />
+        />}
         <div className="absolute inset-0 bg-gradient-to-t from-lava via-lava/60 to-lava/20" />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-4xl px-6 pb-16 text-lava-foreground">
-          <p className="text-sm uppercase tracking-[0.25em] opacity-80">Porta dell'Etna</p>
+          <p className="text-sm uppercase tracking-[0.25em] opacity-80">{text("home.eyebrow","Porta dell'Etna")}</p>
           <h1 className="mt-3 text-4xl leading-tight md:text-6xl">
-            Casa Museo della Civiltà Contadina
+            {text("site.name","Casa Museo della Civiltà Contadina")}
           </h1>
-          <p className="mt-2 text-sm opacity-80">Intitolato al Dott. Lucio Messina</p>
+          <p className="mt-2 text-sm opacity-80">{text("site.caption","Intitolato al Dott. Lucio Messina")}</p>
           <p className="mt-4 max-w-2xl text-base opacity-85 md:text-lg">
-            Nel cuore del centro storico di Nicolosi, una fedele ricostruzione dell'abitazione
-            rurale etnea tra fine Ottocento e inizio Novecento.
+{text("home.description", "Nel cuore del centro storico di Nicolosi, una fedele ricostruzione dell’abitazione rurale etnea tra fine Ottocento e inizio Novecento.")}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -90,11 +92,7 @@ function Home() {
       <section className="mx-auto max-w-4xl px-6 pt-14">
         <h2 className="text-3xl">Il Museo</h2>
         <p className="mt-4 text-muted-foreground">
-          La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di
-          un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata
-          nel centro storico, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici,
-          tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori
-          un'immersione autentica nella vita contadina siciliana.
+          {text("home.history", "La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata nel centro storico, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici, tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori un'immersione autentica nella vita contadina siciliana.")}
         </p>
         <Button asChild variant="link" className="mt-2 px-0">
           <Link to="/museo">
@@ -106,9 +104,9 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl gap-4 px-6 py-12 md:grid-cols-3">
         {[
-          { icon: MapPin, label: "Via G. Garibaldi 58, Nicolosi (CT)" },
-          { icon: Clock, label: "Martedì – Sabato, 9:30 – 12:30" },
-          { icon: Phone, label: "095 910980" },
+          { icon: MapPin, label: text("contact.address", "Via G. Garibaldi 58, Nicolosi (CT)") },
+          { icon: Clock, label: text("contact.hours", "Martedì – Sabato, 9:30 – 12:30") },
+          { icon: Phone, label: text("contact.phone", "095 910980") },
         ].map(({ icon: Icon, label }) => (
           <div
             key={label}
