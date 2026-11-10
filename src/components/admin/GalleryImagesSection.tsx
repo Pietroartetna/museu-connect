@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/lib/storage";
 import { StoredMedia } from "@/components/StoredMedia";
@@ -141,7 +141,7 @@ export function GalleryImagesSection() {
             id="img"
             key={mediaType}
             type="file"
-            accept={mediaType === "video" ? "video/*" : "image/*"}
+            accept={mediaType === "video" ? ".mp4,.mov,.webm,video/mp4,video/quicktime,video/webm,video/*" : "image/*"}
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />
         </div>
@@ -164,9 +164,14 @@ export function GalleryImagesSection() {
               />
               <div className="flex items-center justify-between gap-1 p-2">
                 <span className="truncate text-xs text-muted-foreground">{img.caption}</span>
-                <button type="button" onClick={() => remove.mutate(img.id)} aria-label="Elimina">
+                <Button size="icon" variant="ghost" aria-label="Modifica didascalia" onClick={async()=>{
+                  const caption=window.prompt("Didascalia",img.caption ?? ""); if(caption===null)return;
+                  const {error}=await supabase.from("gallery_images").update({caption:caption.trim() || null}).eq("id",img.id);
+                  if(error)toast.error("Salvataggio non riuscito");else {toast.success("Didascalia salvata");queryClient.invalidateQueries({queryKey:["gallery-images"]});}
+                }}><Pencil className="size-4"/></Button>
+                <Button size="icon" variant="ghost" type="button" onClick={() => remove.mutate(img.id)} aria-label="Elimina">
                   <Trash2 className="size-4 text-destructive" />
-                </button>
+                </Button>
               </div>
             </div>
           ))}
