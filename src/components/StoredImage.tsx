@@ -2,15 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 import { ImageOff } from "lucide-react";
 import { resolveUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { ImageViewer } from "@/components/ImageViewer";
 
 export function StoredImage({
   reference,
   alt,
   className,
+  zoomable = true,
 }: {
   reference: string | null;
   alt: string;
   className?: string;
+  zoomable?: boolean;
 }) {
   const { data: url } = useQuery({
     queryKey: ["stored-url", reference],
@@ -33,5 +36,5 @@ export function StoredImage({
     );
   }
 
-  return <img src={url} alt={alt} loading="lazy" className={cn("object-cover", className)} />;
+  return <ImageViewer src={url} alt={alt} className={className} zoomable={zoomable} />;
 }
