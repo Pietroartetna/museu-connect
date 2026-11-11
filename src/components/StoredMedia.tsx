@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ImageOff } from "lucide-react";
 import { resolveUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { ImageViewer } from "@/components/ImageViewer";
 
 export function StoredMedia({
   reference,
@@ -36,5 +37,5 @@ export function StoredMedia({
     return <video src={url} controls preload="metadata" className={cn("object-cover", className)} />;
   }
 
-  return <img src={url} alt={alt} loading="lazy" className={cn("object-cover", className)} />;
+  return <ImageViewer src={url} alt={alt} className={className} />;
 }

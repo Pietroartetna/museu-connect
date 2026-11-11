@@ -1,4 +1,7 @@
 # Attività
+- [x] Gestire sottogallerie fotografiche di artisti e stanze in amministrazione.
+- [x] Adattare e aprire le foto ingrandite e riportare la foto della home nella storia.
+- [x] Verificare caricamento amministrativo e visualizzazione pubblica.
 - [x] Aprire le pagine del museo e aggiornare i collegamenti.
 - [x] Lasciare soltanto l’accesso amministratore e verificare i permessi.
 - [x] Verificare visita pubblica e visualizzazione dei media.

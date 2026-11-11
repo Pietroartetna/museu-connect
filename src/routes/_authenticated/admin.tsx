@@ -114,6 +114,7 @@ function AdminPage() {
               { name: "image_url", label: "Immagine", type: "image" },
             ]}
           />
+          <RoomImagesSection entityType="artist" />
         </TabsContent>
 
         <TabsContent value="eventi" className="mt-6">

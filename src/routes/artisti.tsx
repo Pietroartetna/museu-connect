@@ -5,6 +5,9 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { StoredImage } from "@/components/StoredImage";
 import { Button } from "@/components/ui/button";
+import { RoomGallery } from "@/components/RoomGallery";
+import { entityPhotosQuery } from "@/lib/entity-gallery";
+import { photosForRoom } from "@/lib/room-gallery";
 
 export const Route = createFileRoute("/artisti")({
   head: () => ({
@@ -24,6 +27,7 @@ export const Route = createFileRoute("/artisti")({
 });
 
 function ArtistiPage() {
+  const { data: photos = [], error: photosError } = useQuery(entityPhotosQuery("artist"));
   const [filter, setFilter] = useState<"tutti" | "storico" | "contemporaneo">("tutti");
 
   const { data } = useQuery({
@@ -66,6 +70,7 @@ function ArtistiPage() {
         </p>
       ) : null}
 
+      {photosError ? <p role="alert" className="mt-6 text-sm text-destructive">Le gallerie degli artisti non sono al momento disponibili.</p> : null}
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {list.map((artist) => (
           <article key={artist.id} className="overflow-hidden rounded-xl border bg-card shadow-soft">
@@ -76,6 +81,7 @@ function ArtistiPage() {
               </span>
               <h2 className="mt-1 text-xl text-primary">{artist.name}</h2>
               <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{artist.bio}</p>
+              <RoomGallery name={artist.name} photos={photosForRoom(photos, artist.id)} entityType="artist" />
             </div>
           </article>
         ))}
