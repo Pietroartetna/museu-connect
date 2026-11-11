@@ -4,6 +4,7 @@ import heroImage from "@/assets/hero-casa-museo.jpg";
 import { MuseumNav } from "@/components/MuseumNav";
 import { useSiteContent } from "@/lib/site-content";
 import { StoredImage } from "@/components/StoredImage";
+import { ImageViewer } from "@/components/ImageViewer";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/museo")({
@@ -61,7 +62,7 @@ function MuseoPage() {
       <MuseumNav />
 
       <section className="relative isolate flex min-h-[min(52svh,560px)] items-end overflow-hidden">
-        {text("museo.banner", "") ? <StoredImage reference={text("museo.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
+        {text("home.banner", "") ? <StoredImage zoomable={false} reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
           src={heroImage}
           alt="Ambienti della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
@@ -80,6 +81,10 @@ function MuseoPage() {
 
       <section className="mx-auto max-w-3xl px-6 py-12">
         <h2 className="text-3xl">La storia</h2>
+        <figure className="mt-6">
+          {text("home.banner", "") ? <StoredImage reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="aspect-[4/3] w-full rounded-lg" /> : <ImageViewer src={heroImage} alt="Interno della Casa Museo della Civiltà Contadina di Nicolosi" className="aspect-[4/3] w-full rounded-lg" />}
+          <figcaption className="mt-2 text-sm text-muted-foreground">{text("site.caption", "Intitolato al Dott. Lucio Messina")}</figcaption>
+        </figure>
         <p className="mt-4 text-muted-foreground">
           {text("museo.history", "La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata nel centro storico di Nicolosi, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici, tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori un'immersione autentica nella vita contadina siciliana.")}
         </p>

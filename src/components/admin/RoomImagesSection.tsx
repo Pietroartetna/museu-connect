@@ -4,14 +4,17 @@ import { toast } from "sonner";
 import { Pencil, Save, Trash2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadFile } from "@/lib/storage";
-import { photosForRoom, ROOM_ENTITY_TYPE, roomPhotosQuery, type RoomPhoto } from "@/lib/room-gallery";
+import { photosForRoom, type RoomPhoto } from "@/lib/room-gallery";
+import { entityPhotosQuery, type GalleryEntityType } from "@/lib/entity-gallery";
 import { StoredImage } from "@/components/StoredImage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export function RoomImagesSection() {
+export function RoomImagesSection({ entityType = "room" }: { entityType?: GalleryEntityType }) {
+  const isArtist = entityType === "artist";
+  const entityLabel = isArtist ? "Artista" : "Stanza";
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [roomId, setRoomId] = useState("");
@@ -21,18 +24,18 @@ export function RoomImagesSection() {
   const [editing, setEditing] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const { data: rooms, error: roomsError } = useQuery({
-    queryKey: ["rooms", "gallery-selector"],
+    queryKey: [isArtist ? "artists" : "rooms", "gallery-selector"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("rooms").select("id, name").order("position");
+      const { data, error } = await supabase.from(isArtist ? "artists" : "rooms").select("id, name").order(isArtist ? "name" : "position");
       if (error) throw error;
       return data;
     },
   });
-  const { data: photos = [], isLoading, error } = useQuery(roomPhotosQuery);
+  const { data: photos = [], isLoading, error } = useQuery(entityPhotosQuery(entityType));
   const selectedPhotos = photosForRoom(photos, roomId);
 
   async function refresh() {
-    await queryClient.invalidateQueries({ queryKey: ["room-photos"] });
+    await queryClient.invalidateQueries({ queryKey: entityPhotosQuery(entityType).queryKey });
   }
 
   async function add(event: React.FormEvent) {
@@ -42,9 +45,9 @@ export function RoomImagesSection() {
     setBusy(true);
     let reference: string | null = null;
     try {
-      reference = await uploadFile("museo", `stanze/${targetRoom}/${crypto.randomUUID()}`, file);
+      reference = await uploadFile("museo", `${isArtist ? "artisti" : "stanze"}/${targetRoom}/${crypto.randomUUID()}`, file);
       const { error } = await supabase.from("entity_images").insert({
-        entity_type: ROOM_ENTITY_TYPE, entity_id: targetRoom,
+        entity_type: entityType, entity_id: targetRoom,
         image_url: reference, caption: caption.trim() || null,
         position: Math.max(-1, ...selectedPhotos.map((photo) => photo.position)) + 1,
       });
@@ -52,7 +55,7 @@ export function RoomImagesSection() {
       setCaption(""); setFile(null);
       if (inputRef.current) inputRef.current.value = "";
       await refresh();
-      toast.success("Foto aggiunta alla stanza");
+      toast.success(isArtist ? "Foto aggiunta all’artista" : "Foto aggiunta alla stanza");
     } catch (error) {
       if (reference) await supabase.storage.from("museo").remove([reference.slice("museo/".length)]);
       toast.error(error instanceof Error ? error.message : "Impossibile caricare la foto");
@@ -63,7 +66,7 @@ export function RoomImagesSection() {
     setBusy(true);
     try {
       const { error } = await supabase.from("entity_images").update({ caption: draft.trim() || null })
-        .eq("id", photo.id).eq("entity_type", ROOM_ENTITY_TYPE).eq("entity_id", roomId);
+        .eq("id", photo.id).eq("entity_type", entityType).eq("entity_id", roomId);
       if (error) throw error;
       await refresh(); setEditing(null);
       toast.success("Descrizione aggiornata");
@@ -72,11 +75,11 @@ export function RoomImagesSection() {
   }
 
   async function remove(photo: RoomPhoto) {
-    if (!window.confirm("Eliminare questa foto dalla galleria della stanza?")) return;
+    if (!window.confirm("Eliminare questa foto dalla galleria?")) return;
     setBusy(true);
     try {
       const { error } = await supabase.from("entity_images").delete()
-        .eq("id", photo.id).eq("entity_type", ROOM_ENTITY_TYPE).eq("entity_id", roomId);
+        .eq("id", photo.id).eq("entity_type", entityType).eq("entity_id", roomId);
       if (error) throw error;
       await refresh();
       toast.success("Foto eliminata dalla galleria");
@@ -86,36 +89,36 @@ export function RoomImagesSection() {
 
   return (
     <section className="mt-10 space-y-5 border-t pt-8">
-      <h2 className="text-2xl">Gallerie delle stanze</h2>
-      {roomsError || error ? <p role="alert" className="text-sm text-destructive">Impossibile caricare le gallerie delle stanze.</p> : null}
+      <h2 className="text-2xl">{isArtist ? "Sottogallerie degli artisti" : "Sottogallerie delle stanze"}</h2>
+      {roomsError || error ? <p role="alert" className="text-sm text-destructive">Impossibile caricare le gallerie fotografiche.</p> : null}
       <div className="max-w-md space-y-2">
-        <Label htmlFor="room-gallery-select">Stanza</Label>
-        <select id="room-gallery-select" className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+        <Label htmlFor={`${entityType}-gallery-select`}>{entityLabel}</Label>
+        <select id={`${entityType}-gallery-select`} className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
           value={roomId} disabled={busy} onChange={(event) => {
             setRoomId(event.target.value); setEditing(null); setCaption(""); setFile(null);
             if (inputRef.current) inputRef.current.value = "";
           }}>
-          <option value="">Seleziona una stanza…</option>
+          <option value="">{isArtist ? "Seleziona un artista…" : "Seleziona una stanza…"}</option>
           {(rooms ?? []).map((room) => <option key={room.id} value={room.id}>{room.name}</option>)}
         </select>
       </div>
       {roomId ? <>
         <form onSubmit={add} className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="room-gallery-photo">Foto</Label>
-            <Input ref={inputRef} id="room-gallery-photo" type="file" accept="image/*" required disabled={busy}
+            <Label htmlFor={`${entityType}-gallery-photo`}>Foto</Label>
+            <Input ref={inputRef} id={`${entityType}-gallery-photo`} type="file" accept="image/*" required disabled={busy}
               onChange={(event) => setFile(event.target.files?.[0] ?? null)} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="room-gallery-description">Descrizione della foto</Label>
-            <Textarea id="room-gallery-description" value={caption} disabled={busy} onChange={(event) => setCaption(event.target.value)} />
+            <Label htmlFor={`${entityType}-gallery-description`}>Descrizione della foto</Label>
+            <Textarea id={`${entityType}-gallery-description`} value={caption} disabled={busy} onChange={(event) => setCaption(event.target.value)} />
           </div>
-          <div className="md:col-span-2"><Button type="submit" disabled={busy || !file}><Upload className="size-4" />{busy ? "Salvataggio…" : "Carica foto nella stanza"}</Button></div>
+          <div className="md:col-span-2"><Button type="submit" disabled={busy || !file}><Upload className="size-4" />{busy ? "Salvataggio…" : isArtist ? "Carica foto per l’artista" : "Carica foto nella stanza"}</Button></div>
         </form>
-        {isLoading ? <p className="text-sm text-muted-foreground">Caricamento…</p> : selectedPhotos.length === 0 ? <p className="text-sm text-muted-foreground">Nessuna foto in questa stanza.</p> : null}
+        {isLoading ? <p className="text-sm text-muted-foreground">Caricamento…</p> : selectedPhotos.length === 0 ? <p className="text-sm text-muted-foreground">Nessuna foto in questa galleria.</p> : null}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {selectedPhotos.map((photo) => <article key={photo.id} className="overflow-hidden rounded-lg border bg-card">
-            <StoredImage reference={photo.image_url} alt={photo.caption || "Foto della stanza"} className="aspect-[4/3] w-full" />
+            <StoredImage reference={photo.image_url} alt={photo.caption || "Foto della galleria"} className="aspect-[4/3] w-full" />
             <div className="space-y-3 p-4">
               {editing === photo.id ? <>
                 <Label htmlFor={`caption-${photo.id}`}>Descrizione</Label>

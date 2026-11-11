@@ -66,7 +66,7 @@ function Home() {
       <MuseumNav />
 
       <section className="relative isolate flex min-h-[min(78svh,760px)] items-end overflow-hidden">
-        {text("home.banner", "") ? <StoredImage reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
+        {text("home.banner", "") ? <StoredImage zoomable={false} reference={text("home.banner", "")} alt={text("site.caption", "Casa Museo")} className="absolute inset-0 h-full w-full object-cover object-center" /> : <img
           src={heroImage}
           alt="Interno della Casa Museo della Civiltà Contadina di Nicolosi"
           width={1600}
