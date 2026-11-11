@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 export function ImageViewer({ src, alt, className, zoomable = true }: {
-  src: string; alt: string; className?: string; zoomable?: boolean;
+  src: string; alt: string; className?: string | undefined; zoomable?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   if (!zoomable) return <img src={src} alt={alt} loading="lazy" className={cn("object-contain", className)} />;
