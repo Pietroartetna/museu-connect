@@ -22,6 +22,13 @@
       "when": 1794303049844,
       "tag": "0002_prevent_gallery_cycles",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794499771421,
+      "tag": "0003_tighten_storage_owner_policies",
+      "breakpoints": true
     }
   ]
 }
