@@ -88,7 +88,7 @@ function MuseoPage() {
         <p className="mt-4 text-muted-foreground">
           {text("museo.history", "La Casa Museo della Civiltà Contadina di Nicolosi è una fedele ricostruzione di un'abitazione rurale dell'Etna tra la fine dell'Ottocento e i primi del Novecento. Situata nel centro storico di Nicolosi, in Via Garibaldi 58, custodisce attrezzi agricoli, utensili domestici, tessuti, oggetti di religiosità popolare e molto altro, offrendo ai visitatori un'immersione autentica nella vita contadina siciliana.")}
         </p>
-        <p className="mt-4 text-muted-foreground">
+        <p className="mt-4 whitespace-pre-line text-muted-foreground">
           {text("museo.biography", "Il museo è intitolato alla memoria del Dott. Lucio Messina, già vice-prefetto di Catania. Gli ambienti restituiscono i gesti quotidiani di una comunità che viveva di agricoltura e pastorizia: la panificazione, la vendemmia, la tessitura, la cura della casa e degli animali.")}
         </p>
       </section>
