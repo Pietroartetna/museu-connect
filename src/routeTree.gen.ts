@@ -21,6 +21,8 @@ import { Route as MuseoRouteImport } from './routes/museo'
 import { Route as ProfiloRouteImport } from './routes/profilo'
 import { Route as StanzeRouteImport } from './routes/stanze'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as GuidaIndexRouteImport } from './routes/guida.index'
+import { Route as GuidaCodiceRouteImport } from './routes/guida.$codice'
 import { Route as PagineSlugRouteImport } from './routes/pagine.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -82,6 +84,16 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const GuidaIndexRoute = GuidaIndexRouteImport.update({
+  id: '/guida/',
+  path: '/guida/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidaCodiceRoute = GuidaCodiceRouteImport.update({
+  id: '/guida/$codice',
+  path: '/guida/$codice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagineSlugRoute = PagineSlugRouteImport.update({
   id: '/pagine/$slug',
   path: '/pagine/$slug',
@@ -100,7 +112,9 @@ export interface FileRoutesByFullPath {
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
+  '/guida/': typeof GuidaIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -114,7 +128,9 @@ export interface FileRoutesByTo {
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
+  '/guida': typeof GuidaIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -130,7 +146,9 @@ export interface FileRoutesById {
   '/profilo': typeof ProfiloRoute
   '/stanze': typeof StanzeRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
+  '/guida/': typeof GuidaIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -146,7 +164,9 @@ export interface FileRouteTypes {
     | '/profilo'
     | '/stanze'
     | '/admin'
+    | '/guida/$codice'
     | '/pagine/$slug'
+    | '/guida/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -160,7 +180,9 @@ export interface FileRouteTypes {
     | '/profilo'
     | '/stanze'
     | '/admin'
+    | '/guida/$codice'
     | '/pagine/$slug'
+    | '/guida'
   id:
     | '__root__'
     | '/'
@@ -175,7 +197,9 @@ export interface FileRouteTypes {
     | '/profilo'
     | '/stanze'
     | '/_authenticated/admin'
+    | '/guida/$codice'
     | '/pagine/$slug'
+    | '/guida/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -190,7 +214,9 @@ export interface RootRouteChildren {
   MuseoRoute: typeof MuseoRoute
   ProfiloRoute: typeof ProfiloRoute
   StanzeRoute: typeof StanzeRoute
+  GuidaCodiceRoute: typeof GuidaCodiceRoute
   PagineSlugRoute: typeof PagineSlugRoute
+  GuidaIndexRoute: typeof GuidaIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -279,6 +305,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/guida/': {
+      id: '/guida/'
+      path: '/guida'
+      fullPath: '/guida/'
+      preLoaderRoute: typeof GuidaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guida/$codice': {
+      id: '/guida/$codice'
+      path: '/guida/$codice'
+      fullPath: '/guida/$codice'
+      preLoaderRoute: typeof GuidaCodiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pagine/$slug': {
       id: '/pagine/$slug'
       path: '/pagine/$slug'
@@ -312,7 +352,9 @@ const rootRouteChildren: RootRouteChildren = {
   MuseoRoute: MuseoRoute,
   ProfiloRoute: ProfiloRoute,
   StanzeRoute: StanzeRoute,
+  GuidaCodiceRoute: GuidaCodiceRoute,
   PagineSlugRoute: PagineSlugRoute,
+  GuidaIndexRoute: GuidaIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

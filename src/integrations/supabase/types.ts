@@ -287,6 +287,91 @@ export type Database = {
           },
         ]
       }
+      guide_files: {
+        Row: {
+          created_at: string
+          file_url: string
+          id: string
+          kind: string
+          label: string | null
+          language: string
+          position: number
+          stop_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_url: string
+          id?: string
+          kind: string
+          label?: string | null
+          language?: string
+          position?: number
+          stop_id: string
+        }
+        Update: {
+          created_at?: string
+          file_url?: string
+          id?: string
+          kind?: string
+          label?: string | null
+          language?: string
+          position?: number
+          stop_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guide_files_stop_id_fkey"
+            columns: ["stop_id"]
+            isOneToOne: false
+            referencedRelation: "guide_stops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      guide_stops: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          number: number
+          published: boolean
+          room_id: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          number: number
+          published?: boolean
+          room_id?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          number?: number
+          published?: boolean
+          room_id?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guide_stops_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       museum_pages: {
         Row: {
           banner_url: string | null
