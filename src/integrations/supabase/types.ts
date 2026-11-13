@@ -287,6 +287,24 @@ export type Database = {
           },
         ]
       }
+      guide_access: {
+        Row: {
+          id: boolean
+          password: string | null
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          password?: string | null
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          password?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       guide_files: {
         Row: {
           created_at: string
@@ -444,6 +462,39 @@ export type Database = {
         }
         Relationships: []
       }
+      public_documents: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          file_url: string | null
+          id: string
+          position: number
+          published: boolean
+          title: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          position?: number
+          published?: boolean
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          position?: number
+          published?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
       rooms: {
         Row: {
           created_at: string
@@ -553,6 +604,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      guide_unlock: { Args: { _password: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

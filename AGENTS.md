@@ -19,3 +19,5 @@
 - Model subgalleries with galleries.parent_id and reject cyclic ancestry so navigation remains reachable.
 - Store contact submissions with insert-only visitor access and admin-only reads; never claim email delivery before verified sending is wired.
 - Audioguide stops live in guide_stops/guide_files; QR codes encode the stop id (not its number) so renumbering never breaks printed labels.
+- Visitors read audioguide stops only through the guide_unlock database function, which checks the admin-set password in guide_access; never reopen direct anon reads on guide_stops/guide_files.
+- Public downloadable documents live in public_documents with files under museo/documenti, anon-readable only when published.

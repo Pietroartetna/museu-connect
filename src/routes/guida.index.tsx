@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Headphones, QrCode } from "lucide-react";
 import { PublicMuseumLayout } from "@/components/PublicMuseumLayout";
-import { guideStopsQuery } from "@/lib/guide";
+import { GuideGate } from "@/components/GuideGate";
+import type { GuideStop } from "@/lib/guide";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -22,11 +22,15 @@ export const Route = createFileRoute("/guida/")({
 });
 
 function GuidaPage() {
-  const { data: stops = [], isLoading } = useQuery(guideStopsQuery);
+  return <PublicMuseumLayout><GuideGate>{(stops) => <GuidaIndex stops={stops} />}</GuideGate></PublicMuseumLayout>;
+}
+
+function GuidaIndex({ stops }: { stops: GuideStop[] }) {
+  const isLoading = false;
   const [num, setNum] = useState("");
   const navigate = useNavigate();
   return (
-    <PublicMuseumLayout>
+    <>
       <p className="flex items-center gap-2 text-sm uppercase tracking-[0.2em] text-primary"><Headphones className="size-4" />Visita guidata · Guided tour</p>
       <h1 className="mt-2 text-3xl sm:text-4xl">Audioguida</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">Inquadra il QR code accanto all'opera o digita il numero della tappa. <span className="italic">Scan the QR code or type the stop number.</span></p>
@@ -48,6 +52,6 @@ function GuidaPage() {
           </li>
         ))}
       </ol>
-    </PublicMuseumLayout>
+    </>
   );
 }

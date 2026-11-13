@@ -51,3 +51,22 @@ export const guideStopsQuery = queryOptions({
     return (data ?? []) as GuideStop[];
   },
 });
+
+const PW_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+/** Easy-to-read password (no 0/O, 1/I) for visitors to type from a printed sign. */
+export function generateGuidePassword(length = 6, random: (n: number) => number = (n) => crypto.getRandomValues(new Uint32Array(1))[0]! % n) {
+  return Array.from({ length }, () => PW_ALPHABET[random(PW_ALPHABET.length)]).join("");
+}
+
+export const normalizeGuidePassword = (p: string) => p.trim().toUpperCase();
+
+/** Visitor access: the database returns stops only when the password matches (or none is set). */
+export const publicGuideQuery = (password: string) => queryOptions({
+  queryKey: ["guide-public", password],
+  queryFn: async () => {
+    const { data, error } = await supabase.rpc("guide_unlock", { _password: password });
+    if (error) throw error;
+    const r = data as { ok: boolean; stops: GuideStop[] };
+    return { ok: r.ok, stops: r.stops ?? [] };
+  },
+});

@@ -8,6 +8,8 @@ import { RoomImagesSection } from "@/components/admin/RoomImagesSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiteContentSection } from "@/components/admin/SiteContentSection";
 import { GuideSection } from "@/components/admin/GuideSection";
+import { GuidePasswordCard } from "@/components/admin/GuidePasswordCard";
+import { DocumentsSection } from "@/components/admin/DocumentsSection";
 import { ContactSubmissionsSection } from "@/components/admin/ContactSubmissionsSection";
 import { useMuseumPages } from "@/lib/site-content";
 import { useQuery } from "@tanstack/react-query";
@@ -58,6 +60,7 @@ function AdminPage() {
           <TabsTrigger value="gallerie">Gallerie</TabsTrigger>
           <TabsTrigger value="immagini">Immagini</TabsTrigger>
           <TabsTrigger value="guida">Audioguida</TabsTrigger>
+          <TabsTrigger value="documenti">Documenti</TabsTrigger>
           <TabsTrigger value="social">Social</TabsTrigger>
         </TabsList>
 
@@ -179,7 +182,8 @@ function AdminPage() {
           <GalleryImagesSection />
         </TabsContent>
 
-        <TabsContent value="guida" className="mt-6"><GuideSection /></TabsContent>
+        <TabsContent value="guida" className="mt-6"><GuidePasswordCard /><GuideSection /></TabsContent>
+        <TabsContent value="documenti" className="mt-6"><DocumentsSection /></TabsContent>
 
         <TabsContent value="social" className="mt-6">
           <CrudSection

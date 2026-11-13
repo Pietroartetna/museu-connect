@@ -15,6 +15,7 @@ import { Route as AreaRouteImport } from './routes/area'
 import { Route as ArtistiRouteImport } from './routes/artisti'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as DocumentiRouteImport } from './routes/documenti'
 import { Route as EventiRouteImport } from './routes/eventi'
 import { Route as GallerieRouteImport } from './routes/gallerie'
 import { Route as MuseoRouteImport } from './routes/museo'
@@ -52,6 +53,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContattiRoute = ContattiRouteImport.update({
   id: '/contatti',
   path: '/contatti',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentiRoute = DocumentiRouteImport.update({
+  id: '/documenti',
+  path: '/documenti',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventiRoute = EventiRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
   '/contatti': typeof ContattiRoute
+  '/documenti': typeof DocumentiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
   '/contatti': typeof ContattiRoute
+  '/documenti': typeof DocumentiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/artisti': typeof ArtistiRoute
   '/auth': typeof AuthRoute
   '/contatti': typeof ContattiRoute
+  '/documenti': typeof DocumentiRoute
   '/eventi': typeof EventiRoute
   '/gallerie': typeof GallerieRoute
   '/museo': typeof MuseoRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/artisti'
     | '/auth'
     | '/contatti'
+    | '/documenti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/artisti'
     | '/auth'
     | '/contatti'
+    | '/documenti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/artisti'
     | '/auth'
     | '/contatti'
+    | '/documenti'
     | '/eventi'
     | '/gallerie'
     | '/museo'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   ArtistiRoute: typeof ArtistiRoute
   AuthRoute: typeof AuthRoute
   ContattiRoute: typeof ContattiRoute
+  DocumentiRoute: typeof DocumentiRoute
   EventiRoute: typeof EventiRoute
   GallerieRoute: typeof GallerieRoute
   MuseoRoute: typeof MuseoRoute
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/contatti'
       fullPath: '/contatti'
       preLoaderRoute: typeof ContattiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documenti': {
+      id: '/documenti'
+      path: '/documenti'
+      fullPath: '/documenti'
+      preLoaderRoute: typeof DocumentiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/eventi': {
@@ -347,6 +367,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArtistiRoute: ArtistiRoute,
   AuthRoute: AuthRoute,
   ContattiRoute: ContattiRoute,
+  DocumentiRoute: DocumentiRoute,
   EventiRoute: EventiRoute,
   GallerieRoute: GallerieRoute,
   MuseoRoute: MuseoRoute,
