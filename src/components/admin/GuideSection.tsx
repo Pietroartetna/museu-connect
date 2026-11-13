@@ -89,12 +89,12 @@ export function GuideSection() {
     e.preventDefault();
     if (!draft) return;
     const number = Number(draft.number);
-    if (!Number.isInteger(number) || number < 1) return toast.error("Inserisci un numero valido");
+    if (!Number.isInteger(number) || number < 1) { toast.error("Inserisci un numero valido"); return; }
     setBusy(true);
     const row = { number, title: draft.title.trim(), subtitle: draft.subtitle.trim() || null, description: draft.description.trim() || null, room_id: draft.room_id || null, published: draft.published };
     const { error } = draft.id ? await supabase.from("guide_stops").update(row).eq("id", draft.id) : await supabase.from("guide_stops").insert(row);
     setBusy(false);
-    if (error) return toast.error(error.code === "23505" ? `Il numero ${number} è già usato da un'altra tappa` : error.message);
+    if (error) { toast.error(error.code === "23505" ? `Il numero ${number} è già usato da un'altra tappa` : error.message); return; }
     setDraft(null); await refresh(); toast.success("Tappa salvata");
   }
 
@@ -102,7 +102,7 @@ export function GuideSection() {
     if (!window.confirm(`Eliminare la tappa ${stop.number} e tutti i suoi file? Il QR stampato non funzionerà più.`)) return;
     const paths = stop.guide_files.map((f) => f.file_url.slice("museo/".length));
     const { error } = await supabase.from("guide_stops").delete().eq("id", stop.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (paths.length) await supabase.storage.from("museo").remove(paths);
     await refresh(); toast.success("Tappa eliminata");
   }
@@ -110,7 +110,7 @@ export function GuideSection() {
   async function removeFile(id: string, url: string) {
     if (!window.confirm("Eliminare questo file?")) return;
     const { error } = await supabase.from("guide_files").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await supabase.storage.from("museo").remove([url.slice("museo/".length)]);
     await refresh();
   }
