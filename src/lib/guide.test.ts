@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { filesForLanguage, parseStopKey, stopUrl, type GuideFile } from "./guide";
+import { filesForLanguage, generateGuidePassword, normalizeGuidePassword, parseStopKey, stopUrl, type GuideFile } from "./guide";
 
 const f = (id: string, kind: string, language: string, position = 0): GuideFile =>
   ({ id, stop_id: "s", kind, language, label: null, file_url: id, position });
@@ -18,3 +18,11 @@ test("in inglese mostra l'audio inglese e non quello italiano", () => {
     assert.deepEqual(filesForLanguage(files, "audio", "en").map((x) => x.id), ["en", "both"]);
   });
 
+test("la password generata ha 6 caratteri leggibili senza 0, O, 1, I", () => {
+    const p = generateGuidePassword();
+    assert.equal(p.length, 6);
+    assert.match(p, /^[A-HJ-NP-Z2-9]+$/);
+  });
+test("la password digitata dal visitatore ignora spazi e minuscole", () => {
+    assert.equal(normalizeGuidePassword("  ab3k "), "AB3K");
+  });

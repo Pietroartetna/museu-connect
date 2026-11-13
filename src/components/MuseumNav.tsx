@@ -11,6 +11,7 @@ const navLinks = [
   ["/eventi", "Eventi"],
   ["/gallerie", "Gallerie"],
   ["/guida", "Audioguida"],
+  ["/documenti", "Documenti"],
   ["/contatti", "Contatti"],
 ] as const;
 

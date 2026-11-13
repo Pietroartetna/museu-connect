@@ -13,3 +13,5 @@
 - [x] Rendere modificabili banner, didascalie, biografie e testi del sito.
 - [x] Gestire pagine personalizzate con gallerie, sottogallerie, artisti e stanze.
 - [x] Verificare creazione, modifica e visita pubblica di una pagina e invio contatti.
+- [x] Password audioguida gestita dall’amministrazione.
+- [x] Area documenti scaricabili (brochure, volantini).

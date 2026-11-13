@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, List } from "lucide-react";
 import { PublicMuseumLayout } from "@/components/PublicMuseumLayout";
 import { GuideFileView } from "@/components/GuideFileView";
-import { filesForLanguage, guideStopsQuery, parseStopKey } from "@/lib/guide";
+import { filesForLanguage, parseStopKey, type GuideStop } from "@/lib/guide";
+import { GuideGate } from "@/components/GuideGate";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/guida/$codice")({
@@ -27,9 +27,12 @@ const T = {
 };
 
 function TappaPage() {
+  return <PublicMuseumLayout><GuideGate>{(stops) => <Tappa stops={stops} />}</GuideGate></PublicMuseumLayout>;
+}
+
+function Tappa({ stops }: { stops: GuideStop[] }) {
   const { codice } = Route.useParams();
   const [lang, setLang] = useState<"it" | "en">("it");
-  const { data: stops = [], isLoading } = useQuery(guideStopsQuery);
   const key = parseStopKey(codice);
   const index = key ? stops.findIndex((s) => ("id" in key ? s.id === key.id : s.number === key.number)) : -1;
   const stop = index >= 0 ? stops[index] : null;
@@ -37,12 +40,11 @@ function TappaPage() {
   const prev = index > 0 ? stops[index - 1] : null;
   const next = index >= 0 && index < stops.length - 1 ? stops[index + 1] : null;
 
-  if (isLoading) return <PublicMuseumLayout><p className="text-sm text-muted-foreground">Caricamento…</p></PublicMuseumLayout>;
   if (!stop) return (
-    <PublicMuseumLayout>
+    <>
       <h1 className="text-2xl">{t.missing}</h1>
       <Button asChild variant="link" className="mt-2 px-0"><Link to="/guida"><List className="size-4" />{t.all}</Link></Button>
-    </PublicMuseumLayout>
+    </>
   );
 
   const audio = filesForLanguage(stop.guide_files, "audio", lang);
@@ -50,7 +52,6 @@ function TappaPage() {
   const images = filesForLanguage(stop.guide_files, "image", lang);
 
   return (
-    <PublicMuseumLayout>
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between gap-3">
           <Button asChild variant="ghost" size="sm" className="px-0"><Link to="/guida"><List className="size-4" />{t.all}</Link></Button>
@@ -86,6 +87,5 @@ function TappaPage() {
           {next ? <Button asChild><Link to="/guida/$codice" params={{ codice: next.id }}>{t.next} {next.number}<ArrowRight className="size-4" /></Link></Button> : null}
         </nav>
       </div>
-    </PublicMuseumLayout>
   );
 }
