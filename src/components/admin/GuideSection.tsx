@@ -12,6 +12,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 
+// Printed labels must open the public site, never the editor preview.
+const PUBLIC_SITE = "https://museu-connect.lovable.app";
 const sel = "h-10 w-full rounded-md border border-input bg-background px-3 text-sm";
 const kindIcon = { audio: Headphones, pdf: FileText, image: ImageIcon } as const;
 const kindLabel = { audio: "Audio", pdf: "PDF / volantino", image: "Foto" } as const;
@@ -23,7 +25,7 @@ const empty = (n: number): Draft => ({ number: String(n), title: "", subtitle: "
 function QrPreview({ stop }: { stop: GuideStop }) {
   const [src, setSrc] = useState("");
   useEffect(() => {
-    QRCode.toDataURL(stopUrl(window.location.origin, stop.id), { width: 1024, margin: 2, errorCorrectionLevel: "M" }).then(setSrc);
+    QRCode.toDataURL(stopUrl(PUBLIC_SITE, stop.id), { width: 1024, margin: 2, errorCorrectionLevel: "M" }).then(setSrc);
   }, [stop.id]);
   if (!src) return null;
   return (

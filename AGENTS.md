@@ -18,3 +18,4 @@
 - Store editable global copy in site_content and custom published pages in museum_pages; attach existing rooms, artists and galleries through page_id to reuse their administration and media.
 - Model subgalleries with galleries.parent_id and reject cyclic ancestry so navigation remains reachable.
 - Store contact submissions with insert-only visitor access and admin-only reads; never claim email delivery before verified sending is wired.
+- Audioguide stops live in guide_stops/guide_files; QR codes encode the stop id (not its number) so renumbering never breaks printed labels.
