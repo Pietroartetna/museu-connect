@@ -18,7 +18,7 @@ export function GuidePasswordCard() {
   const save = async (pw: string) => {
     const password = normalizeGuidePassword(pw) || null;
     const { error } = await supabase.from("guide_access").upsert({ id: true, password, updated_at: new Date().toISOString() });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(password ? `Password salvata: ${password}` : "Audioguida aperta a tutti");
     qc.invalidateQueries({ queryKey: ["guide-access"] });
   };

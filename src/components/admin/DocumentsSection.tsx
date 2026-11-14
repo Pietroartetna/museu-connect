@@ -20,7 +20,7 @@ export function DocumentsSection() {
   const categories = [...new Set(["Brochure", "Volantini", "Documenti", ...docs.map((d) => d.category)])];
 
   const add = async () => {
-    if (!title.trim() || !file) return toast.error("Inserisci titolo e file");
+    if (!title.trim() || !file) { toast.error("Inserisci titolo e file"); return; }
     setBusy(true);
     try {
       const file_url = await uploadFile("museo", `documenti/${Date.now()}`, file, { optimize: false });
@@ -30,7 +30,7 @@ export function DocumentsSection() {
     } catch (e) { toast.error(e instanceof Error ? e.message : "Caricamento non riuscito"); }
     finally { setBusy(false); }
   };
-  const update = async (id: string, patch: Record<string, unknown>) => {
+  const update = async (id: string, patch: { published?: boolean }) => {
     const { error } = await supabase.from("public_documents").update(patch).eq("id", id);
     if (error) toast.error(error.message); else refresh();
   };
