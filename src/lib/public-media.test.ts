@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { createClient } from "@supabase/supabase-js";
 
 test("gallery cover photos are readable without signing in", async () => {
-  const url = process.env.VITE_SUPABASE_URL;
-  const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env['VITE_SUPABASE_URL'];
+  const key = process.env['VITE_SUPABASE_PUBLISHABLE_KEY'];
   assert.ok(url && key, "Cloud configuration is required for this integration test");
   const visitor = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
