@@ -1,0 +1,1 @@
+ALTER POLICY public_documents_read ON public.public_documents USING (published);
