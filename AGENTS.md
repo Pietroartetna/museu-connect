@@ -21,3 +21,4 @@
 - Audioguide stops live in guide_stops/guide_files; QR codes encode the stop id (not its number) so renumbering never breaks printed labels.
 - Visitors read audioguide stops only through the guide_unlock database function, which checks the admin-set password in guide_access; never reopen direct anon reads on guide_stops/guide_files.
 - Public downloadable documents live in public_documents with files under museo/documenti, anon-readable only when published.
+- Keep anonymous document SELECT policies limited to published; admin access uses the separate authenticated policy so storage reads never invoke an auth-only role function for visitors.
