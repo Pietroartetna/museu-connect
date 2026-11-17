@@ -50,6 +50,13 @@
       "when": 1794823660824,
       "tag": "0006_fix_public_document_media_permission",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794897343610,
+      "tag": "0007_protect_audioguide_downloads",
+      "breakpoints": true
     }
   ]
 }
