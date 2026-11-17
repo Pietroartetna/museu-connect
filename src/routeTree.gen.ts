@@ -25,6 +25,7 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as GuidaIndexRouteImport } from './routes/guida.index'
 import { Route as GuidaCodiceRouteImport } from './routes/guida.$codice'
 import { Route as PagineSlugRouteImport } from './routes/pagine.$slug'
+import { Route as ApiPublicGuideFileIdRouteImport } from './routes/api/public/guide-file.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -105,6 +106,11 @@ const PagineSlugRoute = PagineSlugRouteImport.update({
   path: '/pagine/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicGuideFileIdRoute = ApiPublicGuideFileIdRouteImport.update({
+  id: '/api/public/guide-file/$id',
+  path: '/api/public/guide-file/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
   '/guida/': typeof GuidaIndexRoute
+  '/api/public/guide-file/$id': typeof ApiPublicGuideFileIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
   '/guida': typeof GuidaIndexRoute
+  '/api/public/guide-file/$id': typeof ApiPublicGuideFileIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/guida/$codice': typeof GuidaCodiceRoute
   '/pagine/$slug': typeof PagineSlugRoute
   '/guida/': typeof GuidaIndexRoute
+  '/api/public/guide-file/$id': typeof ApiPublicGuideFileIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/guida/$codice'
     | '/pagine/$slug'
     | '/guida/'
+    | '/api/public/guide-file/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/guida/$codice'
     | '/pagine/$slug'
     | '/guida'
+    | '/api/public/guide-file/$id'
   id:
     | '__root__'
     | '/'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/guida/$codice'
     | '/pagine/$slug'
     | '/guida/'
+    | '/api/public/guide-file/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   GuidaCodiceRoute: typeof GuidaCodiceRoute
   PagineSlugRoute: typeof PagineSlugRoute
   GuidaIndexRoute: typeof GuidaIndexRoute
+  ApiPublicGuideFileIdRoute: typeof ApiPublicGuideFileIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -346,6 +359,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagineSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/guide-file/$id': {
+      id: '/api/public/guide-file/$id'
+      path: '/api/public/guide-file/$id'
+      fullPath: '/api/public/guide-file/$id'
+      preLoaderRoute: typeof ApiPublicGuideFileIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -376,6 +396,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidaCodiceRoute: GuidaCodiceRoute,
   PagineSlugRoute: PagineSlugRoute,
   GuidaIndexRoute: GuidaIndexRoute,
+  ApiPublicGuideFileIdRoute: ApiPublicGuideFileIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -346,6 +346,24 @@ export type Database = {
           },
         ]
       }
+      guide_sessions: {
+        Row: {
+          expires_at: string
+          password_hash: string
+          token_hash: string
+        }
+        Insert: {
+          expires_at?: string
+          password_hash: string
+          token_hash: string
+        }
+        Update: {
+          expires_at?: string
+          password_hash?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
       guide_stops: {
         Row: {
           created_at: string
@@ -604,6 +622,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      guide_file_access: {
+        Args: { _file_id: string; _token: string }
+        Returns: string
+      }
+      guide_open: { Args: { _password: string }; Returns: Json }
       guide_unlock: { Args: { _password: string }; Returns: Json }
       has_role: {
         Args: {
