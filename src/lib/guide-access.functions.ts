@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getRequest, setResponseHeader } from "@tanstack/react-start/server";
 import type { Database } from "@/integrations/supabase/types";
 import { guideCookie } from "./guide-download";
+import type { GuideStop } from "./guide";
 
 export const openGuide = createServerFn({ method: "POST" })
   .inputValidator(z.object({ password: z.string().max(256) }))
@@ -29,5 +30,5 @@ export const openGuide = createServerFn({ method: "POST" })
     } else {
       setResponseHeader("Set-Cookie", `${guideCookie("", new URL(getRequest().url).protocol === "https:")}; Max-Age=0`);
     }
-    return { ok: parsed.ok, stops: parsed.stops };
+    return { ok: parsed.ok, stops: parsed.stops as GuideStop[] };
   });
