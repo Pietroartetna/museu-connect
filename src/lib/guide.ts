@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { openGuide } from "./guide-access.functions";
 
 export type GuideFileKind = "audio" | "pdf" | "image";
 export type GuideLanguage = "it" | "en" | "all";
@@ -54,7 +55,7 @@ export const guideStopsQuery = queryOptions({
 
 const PW_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 /** Easy-to-read password (no 0/O, 1/I) for visitors to type from a printed sign. */
-export function generateGuidePassword(length = 6, random: (n: number) => number = (n) => crypto.getRandomValues(new Uint32Array(1))[0]! % n) {
+export function generateGuidePassword(length = 6, random: (n: number) => number = (n) => (crypto.getRandomValues(new Uint32Array(1))[0] ?? 0) % n) {
   return Array.from({ length }, () => PW_ALPHABET[random(PW_ALPHABET.length)]).join("");
 }
 
@@ -63,10 +64,11 @@ export const normalizeGuidePassword = (p: string) => p.trim().toUpperCase();
 /** Visitor access: the database returns stops only when the password matches (or none is set). */
 export const publicGuideQuery = (password: string) => queryOptions({
   queryKey: ["guide-public", password],
+  staleTime: 0,
+  refetchOnMount: "always",
+  retry: false,
   queryFn: async () => {
-    const { data, error } = await supabase.rpc("guide_unlock", { _password: password });
-    if (error) throw error;
-    const r = data as { ok: boolean; stops: GuideStop[] };
+    const r = await openGuide({ data: { password } }) as { ok: boolean; stops: GuideStop[] };
     return { ok: r.ok, stops: r.stops ?? [] };
   },
 });
