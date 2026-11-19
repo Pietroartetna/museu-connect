@@ -64,6 +64,13 @@
       "when": 1794897486914,
       "tag": "0008_separate_guide_visitor_storage_checks",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795099648841,
+      "tag": "0009_version_audioguide_password_sessions",
+      "breakpoints": true
     }
   ]
 }

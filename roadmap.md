@@ -1,5 +1,5 @@
 # Attività
-- [ ] Proteggere i link ai file dell’audioguida con la password e verificare che foto e documenti pubblici restino accessibili.
+- [x] Proteggere i link ai file dell’audioguida con la password e verificare che foto e documenti pubblici restino accessibili.
 - [x] Gestire sottogallerie fotografiche di artisti e stanze in amministrazione.
 - [x] Adattare e aprire le foto ingrandite e riportare la foto della home nella storia.
 - [x] Verificare caricamento amministrativo e visualizzazione pubblica.

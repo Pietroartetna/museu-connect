@@ -289,16 +289,19 @@ export type Database = {
       }
       guide_access: {
         Row: {
+          access_version: string
           id: boolean
           password: string | null
           updated_at: string
         }
         Insert: {
+          access_version?: string
           id?: boolean
           password?: string | null
           updated_at?: string
         }
         Update: {
+          access_version?: string
           id?: boolean
           password?: string | null
           updated_at?: string
@@ -348,16 +351,19 @@ export type Database = {
       }
       guide_sessions: {
         Row: {
+          access_version: string | null
           expires_at: string
           password_hash: string
           token_hash: string
         }
         Insert: {
+          access_version?: string | null
           expires_at?: string
           password_hash: string
           token_hash: string
         }
         Update: {
+          access_version?: string | null
           expires_at?: string
           password_hash?: string
           token_hash?: string

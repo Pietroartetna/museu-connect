@@ -19,13 +19,13 @@ export function GuidePasswordCard() {
     const password = normalizeGuidePassword(pw) || null;
     const { error } = await supabase.from("guide_access").upsert({ id: true, password, updated_at: new Date().toISOString() });
     if (error) { toast.error(error.message); return; }
-    toast.success(password ? `Password salvata: ${password}` : "Audioguida aperta a tutti");
+    toast.success(password ? "Password salvata" : "Accesso all’audioguida sospeso");
     qc.invalidateQueries({ queryKey: ["guide-access"] });
   };
   return (
     <div className="mb-8 rounded-xl border bg-card p-5 shadow-soft">
       <h3 className="flex items-center gap-2 text-xl"><KeyRound className="size-5 text-primary" />Password audioguida</h3>
-      <p className="mt-1 text-sm text-muted-foreground">I visitatori devono inserirla per ascoltare le tappe. Lascia vuoto per aprire l'audioguida a tutti. Chi ha già inserito la vecchia password dovrà digitare quella nuova.</p>
+      <p className="mt-1 text-sm text-muted-foreground">La password protegge le tappe e tutti i loro file. Se la rimuovi, l’accesso resta sospeso finché non ne imposti una nuova.</p>
       <div className="mt-4 flex flex-wrap gap-2">
         <Input aria-label="Password audioguida" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Nessuna password" className="max-w-xs font-mono text-lg tracking-widest" />
         <Button variant="outline" onClick={() => { const p = generateGuidePassword(); setValue(p); void save(p); }}><RefreshCw className="size-4" />Genera nuova</Button>

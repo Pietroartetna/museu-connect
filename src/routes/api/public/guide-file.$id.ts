@@ -8,7 +8,11 @@ export const Route = createFileRoute("/api/public/guide-file/$id")({
   server: { handlers: {
     GET: async ({ request, params }) => {
       const headers = new Headers({ "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" });
-      const fail = (status: number) => new Response(status === 401 ? "Inserisci la password nell’area Audioguida per aprire questo file." : "File non disponibile", { status, headers });
+      const fail = (status: number) => {
+        if (status !== 401) return new Response("File non disponibile", { status, headers });
+        headers.set("Content-Type", "text/html; charset=utf-8");
+        return new Response('<!doctype html><html lang="it"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>File protetto — Casa Museo Nicolosi</title><h1>File dell’audioguida protetto</h1><p>Inserisci la password nell’<a href="/guida">Audioguida</a> per aprire il file.</p></html>', { status, headers });
+      };
       if (!z.string().uuid().safeParse(params.id).success) return fail(404);
       const token = request.headers.get("cookie")?.split(";").map((c) => c.trim()).find((c) => c.startsWith("museum-guide="))?.slice("museum-guide=".length);
       if (!token || !/^[a-f0-9]{64}$/.test(token)) return fail(401);
